@@ -41,10 +41,10 @@
    * Config:Paths
    */
   \BB\config::set('path:protocol', $_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http', 'app');
-  \BB\config::set('path:directory', '/ehe-ini-de/', 'app');
-  \BB\config::set('path:http', 'http://'.$_SERVER['SERVER_NAME'].'/ehe-ini-de/', 'app');
-  \BB\config::set('path:https', 'https://'.$_SERVER['SERVER_NAME'].'/ehe-ini-de/', 'app');
-  \BB\config::set('path:none', '//'.$_SERVER['SERVER_NAME'].'/ehe-ini-de/', 'app');
+  \BB\config::set('path:directory', '/efg-ettenheim-de-neu/', 'app');
+  \BB\config::set('path:http', 'http://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-neu/', 'app');
+  \BB\config::set('path:https', 'https://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-neu/', 'app');
+  \BB\config::set('path:none', '//'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-neu/', 'app');
 
   \BB\config::set('path:php', '/usr/bin/');
   \BB\config::set('path:mysql', '/usr/bin/');
