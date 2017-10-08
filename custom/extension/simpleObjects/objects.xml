@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+
+  <object name="Slider" id="slider" view="slider" engine="object" stage="1" locations="1" />
+
+  <object name="Slider-Element rechts" id="sliderElementRight" view="sliderElementRight" engine="object" stage="1" locations="1">
+    <field name="Bild" key="img" type="file" length="varchar" width="300" height="1" />
+    <field name="Überschrift 1" key="h1" type="input" length="varchar" width="300" height="1" />
+    <field name="Überschrift 2" key="h2" type="input" length="varchar" width="300" height="1" />
+    <field name="Text" key="text" type="input" length="varchar" width="300" height="1" />
+    <field name="Link" key="link" type="page_id" length="varchar" width="300" height="1">
+      <wrap><![CDATA[<a class="btn btn-slider" href="{page_link[|]}#">Mehr</a>]]></wrap>
+    </field>
+</object>
+
+  <object name="Slider-Element links" id="sliderElementLeft" view="sliderElementLeft" engine="object" stage="1" locations="1">
+    <field name="Bild" key="img" type="file" length="varchar" width="300" height="1" />
+    <field name="Überschrift 1" key="h1" type="input" length="varchar" width="300" height="1" />
+    <field name="Überschrift 2" key="h2" type="input" length="varchar" width="300" height="1" />
+    <field name="Text" key="text" type="input" length="varchar" width="300" height="1" />
+    <field name="Link" key="link" type="page_id" length="varchar" width="300" height="1">
+      <wrap><![CDATA[<a class="btn btn-slider" href="{page_link[|]}#">Mehr</a>]]></wrap>
+    </field>
+  </object>
+
+</objects>

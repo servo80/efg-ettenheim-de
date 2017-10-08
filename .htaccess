@@ -11,7 +11,7 @@ RewriteEngine on
 #Options +FollowSymLinks
 #Options +SymlinksIfOwnerMatch
 
-RewriteBase /efg-ettenheim-de-neu/
+RewriteBase /efg-ettenheim-de-4/
 
 RewriteCond %{HTTP_HOST}   !^www\..* [NC]
 RewriteCond %{HTTP_HOST}   !^webdev3* [NC]

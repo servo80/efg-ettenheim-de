@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+  <group id="extensionEFG-Ettenheim">
+    <object name="EFG-Ettenheim" id="EFG-Ettenheim:Main" view="Index" engine="extension" stage="0" locations="0">
+
+      <!-- jQuery -->
+      <file href="custom/extension/efgettenheim/theme/sources/jquery/jquery.min.js" type="text/javascript" />
+
+      <!-- Bootstrap -->
+      <file href="custom/extension/efgettenheim/theme/sources/bootstrap/js/bootstrap.min.js" type="text/javascript" />
+      <file href="custom/extension/efgettenheim/theme/sources/bootstrap/css/bootstrap.min.css" type="text/css" />
+
+      <!-- Font Awesome -->
+      <file href="custom/extension/efgettenheim/theme/sources/font-awesome/css/font-awesome.min.css" type="text/css" />
+
+      <!-- Extension -->
+      <file href="custom/extension/efgettenheim/theme/javascript/ext.js" type="text/javascript" />
+      <file href="custom/extension/efgettenheim/theme/css/ext.css" type="text/javascript" />
+
+    </object>
+  </group>
+</objects>

@@ -1,0 +1,1 @@
+<bb:location key="main" class="locationIndex" />

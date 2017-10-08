@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view name="index" file="index.tpl">
+  <location key="main">
+    <object view="Index" src="views/index/" default="1" cache="false" />
+  </location>
+</view>

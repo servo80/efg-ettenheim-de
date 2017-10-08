@@ -1,0 +1,86 @@
+{
+	"id": 1,
+	"name": "EFG-Ettenheim",
+	"type": 0,
+	"folder": "efgettenheim",
+	"settings": {
+		"nodes": [
+			{
+				"id": "jsPlumb_2_1",
+				"x": 40,
+				"y": 60,
+				"settings": {
+					"name": "class",
+					"id": 1,
+					"tbl_type": "content",
+					"tbl_color": "#CFD8DC",
+					"tbl_identifier": "events",
+					"tbl_name": "Veranstaltungen"
+				},
+				"fields": [
+					{
+						"name": "field",
+						"id": 1,
+						"f_identifier": "eventDate",
+						"f_name": "Datum",
+						"f_type": "varchar",
+						"f_form": "datetime",
+						"f_in_group": 0,
+						"f_length": 10,
+						"f_search": 0,
+						"f_find": 1,
+						"f_identify": 1,
+						"f_monolingual": 1
+					},
+					{
+						"name": "field",
+						"id": 2,
+						"f_identifier": "eventHeadline",
+						"f_name": "\u00dcberschrift",
+						"f_type": "varchar",
+						"f_form": "input",
+						"f_in_group": 0,
+						"f_length": 100,
+						"f_width": 300,
+						"f_height": 1,
+						"f_search": 1,
+						"f_find": 1,
+						"f_identify": 1,
+						"f_monolingual": 1
+					},
+					{
+						"name": "field",
+						"id": 3,
+						"f_identifier": "eventText",
+						"f_name": "Text",
+						"f_type": "mediumblob",
+						"f_form": "iframe",
+						"f_in_group": 0,
+						"f_monolingual": 1
+					}
+				]
+			}
+		],
+		"connections": [
+		],
+		"groups": [
+			{
+				"name": "classGroup",
+				"id": 1,
+				"tblgr_identifier": "efgettenheim",
+				"tblgr_name": "EFG Ettenheim",
+				"x": 10,
+				"y": 10,
+				"w": 710,
+				"h": 4960
+			}
+		],
+		"removedFields": [
+		],
+		"removedClasses": [
+		],
+		"removedClassGroups": [
+		]
+	},
+	"userID": 20
+}
