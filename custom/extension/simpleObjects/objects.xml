@@ -11,7 +11,7 @@
     <field name="Link" key="link" type="page_id" length="varchar" width="300" height="1">
       <wrap><![CDATA[<a class="btn btn-slider" href="{page_link[|]}#">Mehr</a>]]></wrap>
     </field>
-</object>
+  </object>
 
   <object name="Slider-Element links" id="sliderElementLeft" view="sliderElementLeft" engine="object" stage="1" locations="1">
     <field name="Bild" key="img" type="file" length="varchar" width="300" height="1" />
@@ -21,6 +21,92 @@
     <field name="Link" key="link" type="page_id" length="varchar" width="300" height="1">
       <wrap><![CDATA[<a class="btn btn-slider" href="{page_link[|]}#">Mehr</a>]]></wrap>
     </field>
+  </object>
+
+  <object name="Slider 2" id="slider2" view="slider2" engine="object" stage="1" locations="1" />
+
+  <object name="Slider-Element 2" id="slider2Element" view="slider2Element" engine="object" stage="1" locations="1">
+    <field name="Bild" key="img" type="file" length="varchar" width="300" height="1" />
+    <field name="Zitat" key="citation" type="input" length="varchar" width="300" height="1" />
+    <field name="Name" key="author" type="input" length="varchar" width="300" height="1" />
+  </object>
+
+  <object name="Events" id="events" view="events" engine="object" stage="1" locations="1">
+    <field name="Überschrift 1" key="h1" type="input" length="varchar" width="300" height="1" />
+    <field name="Überschrift 2" key="h2" type="input" length="varchar" width="300" height="1" />
+    <field name="Event 1: Datum" key="event1Date" type="input" length="varchar" width="100" height="1" />
+    <field name="Event 1: Überschrift" key="event1Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Event 1: Text" key="event1Text" type="text" length="blob" width="300" height="10" />
+    <field name="Evemt 1: Bild" key="event1Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Event 1: Link" key="event1Link" type="page_id" length="varchar" width="300" height="1" />
+    <field name="Event 2: Datum" key="event2Date" type="input" length="varchar" width="100" height="1" />
+    <field name="Event 2: Überschrift" key="event2Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Event 2: Text" key="event2Text" type="text" length="blob" width="300" height="10" />
+    <field name="Evemt 2: Bild" key="event2Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Event 2: Link" key="event2Link" type="page_id" length="varchar" width="300" height="1" />
+    <field name="Event 3: Datum" key="event3Date" type="input" length="varchar" width="100" height="1" />
+    <field name="Event 3: Überschrift" key="event3Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Event 3: Text" key="event3Text" type="text" length="blob" width="300" height="10" />
+    <field name="Evemt 3: Bild" key="event3Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Event 3: Link" key="event3Link" type="page_id" length="varchar" width="300" height="1" />
+
+  </object>
+
+  <object name="Gruppen" id="gruppen" view="gruppen" engine="object" stage="1" locations="1">
+    <field name="Überschrift 1" key="gruppenHeadline" type="input" length="varchar" width="300" height="1" />
+    <field name="Gruppe 1: Überschrift" key="gruppe1Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Gruppe 1: Text" key="gruppe1Text" type="text" length="blob" width="300" height="10" />
+    <field name="Gruppe 1: Bild" key="gruppe1Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Gruppe 1: Link" key="gruppe1Link" type="page_id" length="varchar" width="300" height="1" />
+    <field name="Gruppe 2: Überschrift" key="gruppe2Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Gruppe 2: Text" key="gruppe2Text" type="text" length="blob" width="300" height="10" />
+    <field name="Gruppe 2: Bild" key="gruppe2Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Gruppe 2: Link" key="gruppe2Link" type="page_id" length="varchar" width="300" height="1" />
+    <field name="Gruppe 3: Überschrift" key="gruppe3Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Gruppe 3: Text" key="gruppe3Text" type="text" length="blob" width="300" height="10" />
+    <field name="Gruppe 3: Bild" key="gruppe3Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Gruppe 3: Link" key="gruppe3Link" type="page_id" length="varchar" width="300" height="1" />
+  </object>
+
+  <object name="Pastor" id="pastor" view="pastor" engine="object" stage="1" locations="1">
+    <field name="Überschrift 1" key="h1" type="input" length="varchar" width="300" height="1" />
+    <field name="Text" key="p" type="iframe" length="blob" width="300" height="10" />
+    <field name="Unterschrift" key="scripture" type="file" length="varchar" width="300" height="1" />
+    <field name="Pastor" key="pastor" type="file" length="varchar" width="300" height="1" />
+  </object>
+
+  <object name="Predigten" id="predigten" view="predigten" engine="object" stage="1" locations="1">
+    <field name="Überschrift" key="h2" type="input" length="varchar" width="300" height="1" />
+    <field name="Predigt 1: Titel" key="predigt1Title" type="input" length="varchar" width="300" height="10" />
+    <field name="Predigt 1: Bild" key="predigt1Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Predigt 1: Prediger" key="predigt1Person" type="input" length="varchar" width="300" height="1" />
+    <field name="Predigt 1: Datum" key="predigt1Date" type="input" length="varchar" width="300" height="1" />
+    <field name="Predigt 1: Datei" key="predigt1File" type="file" length="varchar" width="300" height="1" />
+    <field name="Predigt 2: Titel" key="predigt2Title" type="input" length="varchar" width="300" height="10" />
+    <field name="Predigt 2: Bild" key="predigt2Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Predigt 2: Prediger" key="predigt2Person" type="input" length="varchar" width="300" height="1" />
+    <field name="Predigt 2: Datum" key="predigt2Date" type="input" length="varchar" width="300" height="1" />
+    <field name="Predigt 2: Datei" key="predigt2File" type="file" length="varchar" width="300" height="1" />
+    <field name="Predigt 3: Titel" key="predigt3Title" type="input" length="varchar" width="300" height="10" />
+    <field name="Predigt 3: Bild" key="predigt3Img" type="file" length="varchar" width="300" height="1" />
+    <field name="Predigt 3: Prediger" key="predigt3Person" type="input" length="varchar" width="300" height="1" />
+    <field name="Predigt 3: Datum" key="predigt3Date" type="input" length="varchar" width="300" height="1" />
+    <field name="Predigt 3: Datei" key="predigt3File" type="file" length="varchar" width="300" height="1" />
+  </object>
+
+  <object name="Blog" id="blog" view="blog" engine="object" stage="1" locations="1">
+    <field name="Überschrift 1" key="blogHeadline" type="input" length="varchar" width="300" height="1" />
+    <field name="Überschrift 2" key="blogHeadline2" type="input" length="varchar" width="300" height="1" />
+    <field name="Blog 1: Überschrift" key="blog1Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Blog 1: Datum" key="blog1Date" type="input" length="varchar" width="300" height="10" />
+    <field name="Blog 1: Text" key="blog1Text" type="text" length="blob" width="300" height="10" />
+    <field name="Blog 2: Überschrift" key="blog2Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Blog 2: Datum" key="blog2Date" type="input" length="varchar" width="300" height="10" />
+    <field name="Blog 2: Text" key="blog2Text" type="text" length="blob" width="300" height="10" />
+    <field name="Blog 3: Überschrift" key="blog3Headline" type="input" length="varchar" width="300" height="1" />
+    <field name="Blog 3: Datum" key="blog3Date" type="input" length="varchar" width="300" height="10" />
+    <field name="Blog 3: Text" key="blog3Text" type="text" length="blob" width="300" height="10" />
+
   </object>
 
 </objects>
