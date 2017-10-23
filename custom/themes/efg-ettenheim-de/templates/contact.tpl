@@ -83,7 +83,7 @@
   </section>
   <!-- subheader close -->
 
-  <div class="clearfix"></div>
+  <div id="map"></div>
 
   <!-- content begin -->
   <div id="content" class="no-padding">
@@ -109,6 +109,8 @@
   </footer>
   <!-- footer close -->
 </div>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG3ttqyuf0AgSZQL5B94PWbVaHwGFUreA"></script>
 
 </body>
 </html>

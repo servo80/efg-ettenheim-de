@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects>
 
+  <object name="Bild oben / Text unten" id="imgTopTextBelow" view="imgTopTextBelow" engine="object" stage="1" locations="1">
+    <field name="Bild" key="img" type="file" length="varchar" width="300" height="1" />
+    <field name="Text" key="text" type="iframe" length="blob" width="300" height="30" />
+  </object>
+
+  <object name="Bild links / Text rechts" id="imgLeftTextRight" view="imgLeftTextRight" engine="object" stage="1" locations="1">
+    <field name="Bild" key="img" type="file" length="varchar" width="300" height="1" />
+    <field name="Text" key="text" type="iframe" length="blob" width="300" height="30" />
+  </object>
+
+  <object name="Bild rechts / Text links" id="imgRightTextLeft" view="imgRightTextLeft" engine="object" stage="1" locations="1">
+    <field name="Überschrift 1" key="h2" type="input" length="varchar" width="300" height="1" />
+    <field name="Bild" key="img" type="file" length="varchar" width="300" height="1" />
+    <field name="Text" key="text" type="iframe" length="blob" width="300" height="30" />
+  </object>
+
+
   <object name="Slider" id="slider" view="slider" engine="object" stage="1" locations="1" />
 
   <object name="Slider-Element rechts" id="sliderElementRight" view="sliderElementRight" engine="object" stage="1" locations="1">

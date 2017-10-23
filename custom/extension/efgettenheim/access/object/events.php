@@ -23,6 +23,14 @@
      * @var string $eventText
      */
     public $eventText;
+    /**
+     * @var integer $eventLink
+     */
+    public $eventLink;
+    /**
+     * @var string $eventImage
+     */
+    public $eventImage;
   }
 
 ?>

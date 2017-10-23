@@ -1,37 +1,85 @@
-                    // When the window has finished loading create our google map below
-                    google.maps.event.addDomListener(window, 'load', init);
+// When the window has finished loading create our google map below
+google.maps.event.addDomListener(window, 'load', getLocation);
 
-                    function init() {
-                        // Basic options for a simple Google Map
-                        // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
-                        var myLatlng = new google.maps.LatLng(40.6700, -73.9400);
+function geoSuccess() {
 
-                        var mapOptions = {
-                            // How zoomed in you want the map to start at (always required)
-                            zoom: 11,
-                            disableDefaultUI: true,
-							scrollwheel: false,
+    var myLatlng = new google.maps.LatLng(48.262340, 7.805900);
 
-                            // The latitude and longitude to center the map (always required)
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
 
-                            center: myLatlng, // New York
+    var infoWindowContent =
+      '<div class="info_content">' +
+      '<h3>Evangelisch-Freikirchliche Gemeinde Ettenheim</h3>' +
+      '<p>Stückle-Straße 2, 77955 Ettenheim</p>' +
+      '<img src="../custom/themes/efg-ettenheim-de/img/logo.gif" width="151" height="52">' +
+      '</div>'
+      ;
 
-                            // How you would like to style the map. 
-                            // This is where you would paste any style found on Snazzy Maps.
-                            styles: [{"featureType":"landscape","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"stylers":[{"hue":"#00aaff"},{"saturation":-100},{"gamma":2.15},{"lightness":12}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"visibility":"on"},{"lightness":24}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":57}]}]
-                        };
+    var mapOptions = {
 
-                        // Get the HTML DOM element that will contain your map 
-                        // We are using a div with id="map" seen below in the <body>
-                        var mapElement = document.getElementById('map');
+        zoom: 13,
+        scrollwheel: true,
+        center: myLatlng, // Ettenheim
 
-                        // Create the Google Map using out element and options defined above
-                        var map = new google.maps.Map(mapElement, mapOptions);
+    };
 
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            map: map,
-                            title: 'Lorem Ipsum'
-                        });
+    var mapElement = document.getElementById('map');
 
-                    }
+    var map = new google.maps.Map(mapElement, mapOptions);
+
+    var marker = new google.maps.Marker({
+        position: myLatlng,
+        title: 'Evangelisch-Freikirchliche Gemeinde Ettenheim'
+    });
+
+    var infoWindow = new google.maps.InfoWindow(), marker;
+
+    marker.setMap(map);
+
+    google.maps.event.addListener(marker, 'click', (function(marker) {
+      return function() {
+        infoWindow.setContent(infoWindowContent);
+        infoWindow.open(map, marker);
+        latit = marker.getPosition().lat();
+        longit = marker.getPosition().lng();
+      }
+    })(marker));
+
+
+    marker.addListener('click', function() {
+      var currentPosition = navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+      console.log(currentPosition);
+      directionsService.route({
+
+        origin: myLatlng,
+
+        destination: {
+          lat: latit,
+          lng: longit
+        },
+        travelMode: 'DRIVING'
+      }, function(response, status) {
+        if (status === 'OK') {
+          directionsDisplay.setDirections(response);
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+    });
+
+  });
+
+}
+
+function geoError() {
+  alert("Geocoder failed.");
+}
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+    // alert("Geolocation is supported by this browser.");
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}

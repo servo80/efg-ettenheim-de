@@ -17,7 +17,9 @@
    * Config:Debug
    */
   //\BB\config::set('debug:mail', 'frick@konmedia.com');
-  \BB\config::set('debug:mysql', true);
+  \BB\config::set('debug:mysql', 'DEBUG');
+  \BB\config::set('debug:identifierTable', 'DEBUG');
+  \BB\config::set('debug:identifierField', 'DEBUG');
   \BB\config::set('debug:dao', false);
   \BB\config::set('debug:template', true);
   \BB\config::set('debug:identifier', true);
@@ -25,11 +27,12 @@
   \BB\config::set('debug:file', true);
   \BB\config::set('debug:ftp', false);
   \BB\config::set('debug:out', 'chrome'); // chrome|firefox|plain|html|mail|none
+  \BB\config::set('log:level', 'debug'); // chrome|firefox|plain|html|mail|none
 
   /*
    * Config:MySQL
    */
-  \BB\config::set('db:name', 'efg-ettenheim-neu');
+  \BB\config::set('db:name', 'efg-ettenheim-4');
   \BB\config::set('db:host', 'localhost');
   \BB\config::set('db:user', 'root');
   \BB\config::set('db:password', 'root');
@@ -41,10 +44,10 @@
    * Config:Paths
    */
   \BB\config::set('path:protocol', $_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http', 'app');
-  \BB\config::set('path:directory', '/efg-ettenheim-de-neu/', 'app');
-  \BB\config::set('path:http', 'http://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-neu/', 'app');
-  \BB\config::set('path:https', 'https://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-neu/', 'app');
-  \BB\config::set('path:none', '//'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-neu/', 'app');
+  \BB\config::set('path:directory', '/efg-ettenheim-de-4/', 'app');
+  \BB\config::set('path:http', 'http://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-4/', 'app');
+  \BB\config::set('path:https', 'https://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-4/', 'app');
+  \BB\config::set('path:none', '//'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-4/', 'app');
 
   \BB\config::set('path:php', '/usr/bin/');
   \BB\config::set('path:mysql', '/usr/bin/');
@@ -130,6 +133,6 @@
 	#putenv("OMP_NUM_THREADS=1");
   
   ini_set('display_errors', 1);
-  error_reporting(E_PARSE | E_ERROR);
+  error_reporting(E_ERROR);
 
 ?>

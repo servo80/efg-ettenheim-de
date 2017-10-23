@@ -50,7 +50,9 @@
     protected $fields = array(
     	'eventDate',
     	'eventHeadline',
-    	'eventText'
+    	'eventText',
+    	'eventLink',
+    	'eventImage'
     );
     /**
      * @param int $languageID

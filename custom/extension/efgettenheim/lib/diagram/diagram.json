@@ -57,6 +57,31 @@
 						"f_form": "iframe",
 						"f_in_group": 0,
 						"f_monolingual": 1
+					},
+					{
+						"name": "field",
+						"id": 4,
+						"f_identifier": "eventLink",
+						"f_name": "Link",
+						"f_type": "int",
+						"f_form": "page_id",
+						"f_length": 10,
+						"f_width": 300,
+						"f_height": 1,
+						"f_search": 0
+					},
+					{
+						"name": "field",
+						"id": 5,
+						"f_identifier": "eventImage",
+						"f_name": "Bild",
+						"f_type": "varchar",
+						"f_form": "file",
+						"f_in_group": 0,
+						"f_length": 255,
+						"f_width": 300,
+						"f_height": 1,
+						"f_search": 0
 					}
 				]
 			}

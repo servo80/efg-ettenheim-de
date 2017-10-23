@@ -1,6 +1,56 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <theme name="efg-ettenheim-de" ns="efgettenheim">
   <templates>
+    <template name="Standard" file="standard.tpl">
+      <file href="custom/themes/efg-ettenheim-de/css/main.css" type="text/css" />
+      <file type="text/javascript" href="application/javascript/jquery.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/bootstrap.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.isotope.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.prettyPhoto.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/easing.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.ui.totop.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/selectnav.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/ender.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/responsiveslides.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/owl.carousel.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.fitvids.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.plugin.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.countdown.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/countdown-custom.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/wow.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/custom.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/rs-plugin/js/jquery.themepunch.plugins.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/rs-plugin/js/jquery.themepunch.revolution.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/rev-setting-1.js" />
+      <location key="top" width="100%" />
+      <location key="main" width="100%" />
+    </template>
+
+    <template name="Kontakt" file="contact.tpl">
+      <file href="custom/themes/efg-ettenheim-de/css/main.css" type="text/css" />
+      <file type="text/javascript" href="application/javascript/jquery.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/bootstrap.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.isotope.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.prettyPhoto.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/easing.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.ui.totop.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/selectnav.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/ender.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/responsiveslides.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/owl.carousel.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.fitvids.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.plugin.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.countdown.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/countdown-custom.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/wow.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/custom.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/rs-plugin/js/jquery.themepunch.plugins.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/rs-plugin/js/jquery.themepunch.revolution.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/rev-setting-1.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/map.js" />
+      <location key="main" width="100%" />
+    </template>
+
     <template name="Startseite" file="home.tpl">
       <file href="custom/themes/efg-ettenheim-de/css/main.css" type="text/css" />
       <file type="text/javascript" href="application/javascript/jquery.js" />
