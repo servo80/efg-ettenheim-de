@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+
+  <object name="Events dynamisch" id="eventsDynamic" view="eventsDynamic" engine="extension" stage="0" locations="1">
+    <field name="Überschrift 1" key="h1" type="input" length="varchar" width="300" height="1" />
+    <field name="Überschrift 2" key="h2" type="input" length="varchar" width="300" height="1" />
+  </object>
+
+  <object name="Kontaktformular" id="contact" view="contact" engine="extension" stage="0" locations="1">
+    <field name="Überschrift 1" key="h1" type="input" length="varchar" width="300" height="1" />
+    <field name="Überschrift 2" key="h2" type="input" length="varchar" width="300" height="1" />
+  </object>
+
+
+</objects>

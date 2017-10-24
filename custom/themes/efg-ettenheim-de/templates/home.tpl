@@ -20,8 +20,8 @@
           <div id="logo">
             <div class="inner">
               <a href="index.html">
-                <img src="custom/themes/efg-ettenheim-de/img/logo.gif" alt="" class="logo-1">
-                <img src="custom/themes/efg-ettenheim-de/img/logo.gif" alt="" class="logo-2">
+                <img src="custom/themes/efg-ettenheim-de/img/logo.png" alt="" class="logo-1">
+                <img src="custom/themes/efg-ettenheim-de/img/logo-2.png" alt="" class="logo-2">
               </a>
 
             </div>
@@ -55,11 +55,8 @@
 
           <!-- social icons -->
           <div class="social">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-rss"></i></a>
-            <a href="#"><i class="fa fa-google-plus"></i></a>
-            <a href="#"><i class="fa fa-envelope-o"></i></a>
+            <a href="https://www.facebook.com/efgettenheim"><i class="fa fa-facebook"></i></a>
+            <a href="https://www.efg-ettenheim.de/de/Kontakt.html"><i class="fa fa-envelope-o"></i></a>
           </div>
           <!-- social icons close -->
 
