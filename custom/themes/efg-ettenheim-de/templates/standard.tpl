@@ -68,7 +68,7 @@
   <!-- header close -->
 
   <!-- subheader begin -->
-  <section id="subheader" data-speed="2" data-type="background">
+  <section id="subheader" data-speed="2" data-type="background"{pageImage}>
     <div class="container">
       <div class="row">
         <div class="col-md-12">

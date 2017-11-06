@@ -17,6 +17,13 @@
 
       $year = strftime('%Y');
       $pageTmpl->assign('year', $year > 2017 ? ' - '.$year : '');
+
+      $modelContent = \BB\model\content::get();
+      $image = $modelContent->getValue(5, 7, $page_ids[0], 1);
+
+      if(!empty($image)):
+        $pageTmpl->assign('pageImage', ' style="background-size:cover;background: url(../'.$image.' top;"');
+      endif;
 			
 		}
 

@@ -28,6 +28,10 @@
     <field name="Link" key="link" type="page_id" length="varchar" width="300" height="1">
       <wrap><![CDATA[<a class="btn btn-slider" href="{page_link[|]}#">Mehr</a>]]></wrap>
     </field>
+    <field name="Farbe" key="color" type="select" length="varchar" width="300" height="1">
+      <value><![CDATA[|tp-caption-color1|tp-caption-color2]]></value>
+      <text><![CDATA[|Blauer Hintergrund / weiße Schrift|Weißer Hintergrund / blaue Schrift]]></text>
+    </field>
   </object>
 
   <object name="Slider-Element links" id="sliderElementLeft" view="sliderElementLeft" engine="object" stage="1" locations="1">
@@ -37,6 +41,10 @@
     <field name="Text" key="text" type="input" length="varchar" width="300" height="1" />
     <field name="Link" key="link" type="page_id" length="varchar" width="300" height="1">
       <wrap><![CDATA[<a class="btn btn-slider" href="{page_link[|]}#">Mehr</a>]]></wrap>
+    </field>
+    <field name="Farbe" key="color" type="select" length="varchar" width="300" height="1">
+      <value><![CDATA[|tp-caption-color1|tp-caption-color2]]></value>
+      <text><![CDATA[|Blauer Hintergrund / weiße Schrift|Weißer Hintergrund / blaue Schrift]]></text>
     </field>
   </object>
 
@@ -74,21 +82,26 @@
     <field name="Gruppe 1: Überschrift" key="gruppe1Headline" type="input" length="varchar" width="300" height="1" />
     <field name="Gruppe 1: Text" key="gruppe1Text" type="text" length="blob" width="300" height="10" />
     <field name="Gruppe 1: Bild" key="gruppe1Img" type="file" length="varchar" width="300" height="1" />
-    <field name="Gruppe 1: Link" key="gruppe1Link" type="page_id" length="varchar" width="300" height="1" />
+    <field name="Gruppe 1: Link" key="gruppe1Link" type="page_id" length="varchar" width="300" height="1">
+      <wrap><![CDATA[<br><br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
+    </field>
     <field name="Gruppe 2: Überschrift" key="gruppe2Headline" type="input" length="varchar" width="300" height="1" />
     <field name="Gruppe 2: Text" key="gruppe2Text" type="text" length="blob" width="300" height="10" />
     <field name="Gruppe 2: Bild" key="gruppe2Img" type="file" length="varchar" width="300" height="1" />
-    <field name="Gruppe 2: Link" key="gruppe2Link" type="page_id" length="varchar" width="300" height="1" />
+    <field name="Gruppe 2: Link" key="gruppe2Link" type="page_id" length="varchar" width="300" height="1">
+      <wrap><![CDATA[<br><br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
+    </field>
     <field name="Gruppe 3: Überschrift" key="gruppe3Headline" type="input" length="varchar" width="300" height="1" />
     <field name="Gruppe 3: Text" key="gruppe3Text" type="text" length="blob" width="300" height="10" />
     <field name="Gruppe 3: Bild" key="gruppe3Img" type="file" length="varchar" width="300" height="1" />
-    <field name="Gruppe 3: Link" key="gruppe3Link" type="page_id" length="varchar" width="300" height="1" />
+    <field name="Gruppe 3: Link" key="gruppe3Link" type="page_id" length="varchar" width="300" height="1">
+      <wrap><![CDATA[<br><br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
+    </field>
   </object>
 
   <object name="Pastor" id="pastor" view="pastor" engine="object" stage="1" locations="1">
     <field name="Überschrift 1" key="h1" type="input" length="varchar" width="300" height="1" />
     <field name="Text" key="p" type="iframe" length="blob" width="300" height="10" />
-    <field name="Unterschrift" key="scripture" type="file" length="varchar" width="300" height="1" />
     <field name="Pastor" key="pastor" type="file" length="varchar" width="300" height="1" />
   </object>
 

@@ -1,5 +1,8 @@
 // When the window has finished loading create our google map below
-google.maps.event.addDomListener(window, 'load', getLocation);
+
+if(google) {
+  google.maps.event.addDomListener(window, 'load', getLocation);
+}
 
 function geoSuccess() {
 

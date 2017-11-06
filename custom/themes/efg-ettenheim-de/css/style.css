@@ -96,9 +96,7 @@ header .animated {
 - - - - - - - - - - - - - - - - - - - - */
 #subheader{
 	padding:150px 0 70px 0;
-	background:url(../img/bg-subheader.jpg) top;	
-	background-size:cover;
-	background-size:cover;
+	background-color:#0088be;
 	text-align:center;
 }
 #subheader h1{
