@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mt-20 mb-20">
   <div class="row">
     <div class="col-md-6">
       <div id="contact-form-wrapper">

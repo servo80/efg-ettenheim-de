@@ -15,7 +15,7 @@ function geoSuccess() {
       '<div class="info_content">' +
       '<h3>Evangelisch-Freikirchliche Gemeinde Ettenheim</h3>' +
       '<p>Stückle-Straße 2, 77955 Ettenheim</p>' +
-      '<img src="../custom/themes/efg-ettenheim-de/img/logo.gif" width="151" height="52">' +
+      '<img src="../custom/themes/efg-ettenheim-de/img/logo2.png" width="151" height="52">' +
       '</div>'
       ;
 
@@ -52,7 +52,7 @@ function geoSuccess() {
 
     marker.addListener('click', function() {
       var currentPosition = navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
-      console.log(currentPosition);
+
       directionsService.route({
 
         origin: myLatlng,
@@ -75,7 +75,7 @@ function geoSuccess() {
 }
 
 function geoError() {
-  alert("Geocoder failed.");
+  //alert("Geocoder failed.");
 }
 
 function getLocation() {
