@@ -107,7 +107,11 @@
   <!-- footer close -->
 </div>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG3ttqyuf0AgSZQL5B94PWbVaHwGFUreA"></script>
+<script stay="true" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG3ttqyuf0AgSZQL5B94PWbVaHwGFUreA"></script>
 
 </body>
+
+<script stay="true">
+  google.maps.event.addDomListener(window, 'load', geoSuccess);
+</script>
 </html>

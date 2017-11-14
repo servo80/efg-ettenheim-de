@@ -1,0 +1,1 @@
+<script type="text/javascript" src="{app:path:none}{value}" stay="true"></script>
