@@ -1,9 +1,5 @@
 // When the window has finished loading create our google map below
 
-if(google) {
-  google.maps.event.addDomListener(window, 'load', getLocation);
-}
-
 function geoSuccess() {
 
     var myLatlng = new google.maps.LatLng(48.262340, 7.805900);

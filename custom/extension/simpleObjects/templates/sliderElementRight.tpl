@@ -28,9 +28,9 @@
     {h2}
   </div>
 
-  <div class="tp-caption {color} sfb text-left"
+  <div class="tp-caption {color} sfb text-left custom-font-3"
        data-x="600"
-       data-y="250"
+       data-y="300"
        data-speed="800"
        data-start="1400"
        data-easing="easeInOutCubic">

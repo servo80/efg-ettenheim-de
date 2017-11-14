@@ -8,7 +8,7 @@ window.selectnav = (function(){
 "use strict";
 			
 	var selectnav = function(element,options){
-		
+
 		element = document.getElementById(element);
 
 		// return immediately if element doesn't exist	
@@ -38,15 +38,15 @@ window.selectnav = (function(){
 		element.insertAdjacentHTML('afterend', parselist(element) );
 
 		var nav = document.getElementById(id());
-		
+
 		// autoforward on click
 		if (nav.addEventListener) nav.addEventListener('change',goTo);
 		if (nav.attachEvent) nav.attachEvent('onchange', goTo);
-		
+
 		return nav;
 		
 		function goTo(e){
-			
+
 			// Crossbrowser issues - http://www.quirksmode.org/js/events_properties.html
 			var targ;
 			if (!e) e = window.event;

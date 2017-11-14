@@ -19,9 +19,9 @@
     {h2}
   </div>
 
-  <div class="tp-caption {color} sfb text-left"
+  <div class="tp-caption {color} sfb text-left custom-font-3"
        data-x="left"
-       data-y="250"
+       data-y="300"
        data-speed="800"
        data-start="1200"
        data-easing="easeInOutCubic">
@@ -30,7 +30,7 @@
 
   <div class="tp-caption {color} sfb text-left"
        data-x="left"
-       data-y="310"
+       data-y="360"
        data-speed="800"
        data-start="1600"
        data-easing="easeInOutCubic">

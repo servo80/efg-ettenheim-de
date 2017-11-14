@@ -12,9 +12,13 @@
         <div class="item">
           <div class="overlay">
             <span class="time">{echo strftime('%d.%m.%Y', $rows[0]->eventDate);}</span>
-            <a href="{event1Link}">
+            {if($rows[0]->eventLink != ''):}
+            <a href="{$rows[0]->eventLink}">
+            {endif;}
               <h3>{$rows[0]->eventHeadline}</h3>
+            {if($rows[0]->eventLink != ''):}
             </a>
+            {endif;}
             <span class="desc">
               {$rows[0]->eventText}
               {if($rows[0]->eventLink != ''):}
@@ -28,10 +32,19 @@
         <div class="item">
           <div class="overlay">
             <span class="time">{echo strftime('%d.%m.%Y', $rows[1]->eventDate);}</span>
-            <a href="{event2Link}">
+            {if($rows[1]->eventLink != ''):}
+            <a href="{$rows[1]->eventLink}">
+              {endif;}
               <h3>{$rows[1]->eventHeadline}</h3>
+            {if($rows[1]->eventLink != ''):}
             </a>
-            <span class="desc">{$rows[1]->eventText}</span>
+            {endif;}
+            <span class="desc">
+              {$rows[1]->eventText}
+              {if($rows[1]->eventLink != ''):}
+              <a href="{$rows[1]->eventLink}">mehr Infos</a>
+              {endif;}
+            </span>
           </div>
           <img src="{$rows[1]->eventImage}" alt="">
         </div>
@@ -39,10 +52,19 @@
         <div class="item">
           <div class="overlay">
             <span class="time">{echo strftime('%d.%m.%Y', $rows[2]->eventDate);}</span>
-            <a href="{event3Link}">
+            {if($rows[2]->eventLink != ''):}
+            <a href="{$rows[2]->eventLink}">
+            {endif;}
               <h3>{$rows[2]->eventHeadline}</h3>
+            {if($rows[1]->eventLink != ''):}
             </a>
-            <span class="desc">{$rows[2]->eventText}</span>
+            {endif;}
+            <span class="desc">
+              {$rows[2]->eventText}
+              {if($rows[2]->eventLink != ''):}
+              <a href="{$rows[2]->eventLink}">mehr Infos</a>
+              {endif;}
+            </span>
           </div>
           <img src="{$rows[2]->eventImage}" alt="">
         </div>

@@ -74,3 +74,8 @@
 </div>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+  google.maps.event.addDomListener(window, 'load', geoSuccess);
+
+</script>

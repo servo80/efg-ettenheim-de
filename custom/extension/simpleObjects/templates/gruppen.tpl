@@ -1,12 +1,7 @@
 <!-- section begin -->
-<section id="section-text">
+<section id="section-text"{withoutTopMargin}>
   <div class="container">
     <div class="row">
-      <div class="col-md-8 col-md-offset-2 text-center wow fadeInUp">
-        <h2>{gruppenHeadline}</h2>
-        <div class="divider-double"></div>
-      </div>
-
       <div class="col-md-4 wow fadeInRight" data-wow-delay=".5s">
         <img src="{gruppe1Img}" class="img-responsive" alt="">
         <h3>{gruppe1Headline}</h3>

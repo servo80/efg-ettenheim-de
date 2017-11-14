@@ -33,6 +33,7 @@ html {
 .custom-font-1{
 	font-family:"Open Sans", Arial, Helvetica, sans-serif;
 	font-size:16px;
+	padding:3px;
 	letter-spacing:10px;
 	text-transform:uppercase;
 }
@@ -41,10 +42,14 @@ html {
 	font-family:"Montserrat", Arial, Helvetica, sans-serif;
 	font-size:52px;
 	line-height:52px;
-	height:52px;
 	font-weight:700;
+	padding:20px;
 	letter-spacing:2px;
 	text-transform:uppercase;
+}
+
+.custom-font-3{
+	padding:3px;
 }
 
 .line{

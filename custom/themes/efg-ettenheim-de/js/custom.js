@@ -4,10 +4,10 @@
 jQuery(document).ready(function() {
 	// hide preloader
 	jQuery('#preloader').delay(500).fadeOut(500);
-	
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // change menu on mobile version
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     domready(function() {
         "use strict";
         selectnav('mainmenu', {

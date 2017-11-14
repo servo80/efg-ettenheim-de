@@ -7,8 +7,13 @@
   </object>
 
   <object name="Bild links / Text rechts" id="imgLeftTextRight" view="imgLeftTextRight" engine="object" stage="1" locations="1">
+    <field name="Überschrift 1" key="h2" type="input" length="varchar" width="300" height="1" />
     <field name="Bild" key="img" type="file" length="varchar" width="300" height="1" />
     <field name="Text" key="text" type="iframe" length="blob" width="300" height="30" />
+    <field name="Abstand unten" key="marginBottom" type="checkbox" length="int" width="15" height="15">
+    <value>1</value>
+    <wrap><![CDATA[ mb-20]]></wrap>
+  </field>
   </object>
 
   <object name="Bild rechts / Text links" id="imgRightTextLeft" view="imgRightTextLeft" engine="object" stage="1" locations="1">
@@ -78,7 +83,6 @@
   </object>
 
   <object name="Gruppen" id="gruppen" view="gruppen" engine="object" stage="1" locations="1">
-    <field name="Überschrift 1" key="gruppenHeadline" type="input" length="varchar" width="300" height="1" />
     <field name="Gruppe 1: Überschrift" key="gruppe1Headline" type="input" length="varchar" width="300" height="1" />
     <field name="Gruppe 1: Text" key="gruppe1Text" type="text" length="blob" width="300" height="10" />
     <field name="Gruppe 1: Bild" key="gruppe1Img" type="file" length="varchar" width="300" height="1" />
@@ -96,6 +100,10 @@
     <field name="Gruppe 3: Bild" key="gruppe3Img" type="file" length="varchar" width="300" height="1" />
     <field name="Gruppe 3: Link" key="gruppe3Link" type="page_id" length="varchar" width="300" height="1">
       <wrap><![CDATA[<br><br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
+    </field>
+    <field name="Kein Abstand oben" key="withoutTopMargin" type="checkbox" length="int" width="15" height="15">
+      <value>1</value>
+      <wrap><![CDATA[ class="withoutTopMargin"]]></wrap>
     </field>
   </object>
 
