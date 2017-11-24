@@ -294,7 +294,6 @@ padding:0;
 
 .item .overlay .time{
 	letter-spacing:1px;
-	text-transform:uppercase;
 }
 
 
@@ -367,7 +366,7 @@ background:#f8f8f8;
 .custom-carousel-1{
 	padding:0 !important;
 	margin:0 !important;
-	background:#222;
+	background:#0088be;
 }
 
 .custom-carousel-1 .item{
@@ -2232,7 +2231,7 @@ header .col-md-9{
 
 @media (max-width: 992px) {
 #slider .slider-info{display:none;}
-.col-md-1,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-10,.col-md-11,.col-md-12{ margin-bottom:30px;}
+
 
 header {display:none;}
 

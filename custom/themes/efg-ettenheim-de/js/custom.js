@@ -430,7 +430,6 @@ jQuery(document).ready(function() {
         $clone = $header.before($header.clone().addClass("clone"));
     jQuery(window).on("scroll", function() {
         var fromTop = jQuery(window).scrollTop();
-        console.log(fromTop);
         jQuery("body").toggleClass("down", (fromTop > 240));
         anim();
     });

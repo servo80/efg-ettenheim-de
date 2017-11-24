@@ -11,7 +11,7 @@
       <div class="fx custom-carousel-1">
         <div class="item">
           <div class="overlay">
-            <span class="time">{echo strftime('%d.%m.%Y', $rows[0]->eventDate);}</span>
+            <span class="time">{echo strftime('%d.%m.%Y, %H:%M Uhr', $rows[0]->eventDate);}</span>
             {if($rows[0]->eventLink != ''):}
             <a href="{$rows[0]->eventLink}">
             {endif;}
@@ -31,7 +31,7 @@
 
         <div class="item">
           <div class="overlay">
-            <span class="time">{echo strftime('%d.%m.%Y', $rows[1]->eventDate);}</span>
+            <span class="time">{echo strftime('%d.%m.%Y, %H:%M Uhr', $rows[1]->eventDate);}</span>
             {if($rows[1]->eventLink != ''):}
             <a href="{$rows[1]->eventLink}">
               {endif;}
@@ -51,12 +51,12 @@
 
         <div class="item">
           <div class="overlay">
-            <span class="time">{echo strftime('%d.%m.%Y', $rows[2]->eventDate);}</span>
+            <span class="time">{echo strftime('%d.%m.%Y, %H:%M Uhr', $rows[2]->eventDate);}</span>
             {if($rows[2]->eventLink != ''):}
             <a href="{$rows[2]->eventLink}">
             {endif;}
               <h3>{$rows[2]->eventHeadline}</h3>
-            {if($rows[1]->eventLink != ''):}
+            {if($rows[2]->eventLink != ''):}
             </a>
             {endif;}
             <span class="desc">

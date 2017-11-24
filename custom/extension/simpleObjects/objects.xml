@@ -87,19 +87,19 @@
     <field name="Gruppe 1: Text" key="gruppe1Text" type="text" length="blob" width="300" height="10" />
     <field name="Gruppe 1: Bild" key="gruppe1Img" type="file" length="varchar" width="300" height="1" />
     <field name="Gruppe 1: Link" key="gruppe1Link" type="page_id" length="varchar" width="300" height="1">
-      <wrap><![CDATA[<br><br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
+      <wrap><![CDATA[<br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
     </field>
     <field name="Gruppe 2: Überschrift" key="gruppe2Headline" type="input" length="varchar" width="300" height="1" />
     <field name="Gruppe 2: Text" key="gruppe2Text" type="text" length="blob" width="300" height="10" />
     <field name="Gruppe 2: Bild" key="gruppe2Img" type="file" length="varchar" width="300" height="1" />
     <field name="Gruppe 2: Link" key="gruppe2Link" type="page_id" length="varchar" width="300" height="1">
-      <wrap><![CDATA[<br><br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
+      <wrap><![CDATA[<br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
     </field>
     <field name="Gruppe 3: Überschrift" key="gruppe3Headline" type="input" length="varchar" width="300" height="1" />
     <field name="Gruppe 3: Text" key="gruppe3Text" type="text" length="blob" width="300" height="10" />
     <field name="Gruppe 3: Bild" key="gruppe3Img" type="file" length="varchar" width="300" height="1" />
     <field name="Gruppe 3: Link" key="gruppe3Link" type="page_id" length="varchar" width="300" height="1">
-      <wrap><![CDATA[<br><br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
+      <wrap><![CDATA[<br><a href="{page_link[|]}" class="st-btn">Mehr</a>]]></wrap>
     </field>
     <field name="Kein Abstand oben" key="withoutTopMargin" type="checkbox" length="int" width="15" height="15">
       <value>1</value>
