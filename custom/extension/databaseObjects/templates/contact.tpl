@@ -64,7 +64,8 @@
         <div class="divider-line"></div>
 
         <span class="title">Adresse:</span>
-        Stückle-Straße 2, 77955 Ettenheim
+        Stückle-Straße 2, 77955 Ettenheim<br/>
+        Telefon: 07822 4499523
 
       </div>
 
