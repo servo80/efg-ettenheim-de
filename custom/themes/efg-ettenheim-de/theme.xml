@@ -22,6 +22,9 @@
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/rs-plugin/js/jquery.themepunch.plugins.min.js" />
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/rs-plugin/js/jquery.themepunch.revolution.min.js" />
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/rev-setting-1.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/moment.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/fullcalendar.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/fullcalendar-settings.js" />
       <location key="top" width="100%" />
       <location key="main" width="100%" />
     </template>

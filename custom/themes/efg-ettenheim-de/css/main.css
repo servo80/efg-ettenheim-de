@@ -9,4 +9,6 @@
 @import url("owl.theme.css");
 @import url("animate.css");
 @import url("jquery.countdown.css");
+@import url("fullcalendar.css");
+@import url("fullcalendar.print.css") print;
 @import url("custom.css");

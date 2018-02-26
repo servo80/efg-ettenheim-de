@@ -1,6 +1,6 @@
-	$(document).ready(function() {
-		
-		$('#calendar').fullCalendar({
+jQuery(document).ready(function() {
+
+  jQuery('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
