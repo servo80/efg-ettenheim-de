@@ -11,18 +11,20 @@
             {if($error && empty($fullname)):}
             <div id="error_name" class="error" style="display:block;">Bitte geben Sie Ihren Namen ein.</div>
             {endif;}
-            <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Ihr Name" value="{$fullname}" />
+            <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Ihr Name*" value="{$fullname}" />
 
             {if($error && empty($email)):}
             <div id="error_email" class="error" style="display:block;">Bitte geben Sie Ihre E-Mail-Adresse ein.</div>
             {endif;}
-            <input type="text" class="form-control" name="email" id="email" placeholder="Ihre E-Mail-Adresse" value="{$email}" />
+            <input type="text" class="form-control" name="email" id="email" placeholder="Ihre E-Mail-Adresse*" value="{$email}" />
 
             {if($error && empty($message)):}
             <div id="error_message" class="error" style="display:block;">Bitte geben Sie Ihre Nachricht ein.</div>
             {endif;}
 
-            <textarea cols="10" rows="10" name="message" id="message" class="form-control" placeholder="Ihre Nachricht">{$message}</textarea>
+            <textarea cols="10" rows="10" name="message" id="message" class="form-control" placeholder="Ihre Nachricht*">{$message}</textarea>
+
+            <p>Pflichtfelder sind mit * markiert</p>
 
             {if($error && !$captchaSuccess):}
             <div id="error_captcha" class="error" style="display:block;">Bitte bestätigen Sie, dass Sie kein Roboter sind.</div>
@@ -37,6 +39,14 @@
             {if($notsent):}
             <div id="mail_failed" class="error" style="display:block;">Ihre Nachricht konnte leider nicht übermittelt werden.</div>
             {endif;}
+
+            <p>
+              Wenn Sie die im Kontaktformular eingegebenen Daten durch Klick auf den nachfolgenden Button übersenden,
+              erklären Sie sich damit einverstanden, dass wir Ihre Angaben für die Beantwortung Ihrer Anfrage bzw. Kontaktaufnahme verwenden.
+              Eine Weitergabe an Dritte findet grundsätzlich nicht statt.
+              Ihre Daten werden nicht auf dem Server gespeichert, die aus Ihrer Anfrage resultierende E-Mail wird umgehend nach Beantwortung gelöscht.
+              Weitere Informationen zum Datenschutz finden Sie auch in der Datenschutzerklärung dieser Webseite.
+            </p>
 
             <p id="btnsubmit">
               <input type="submit" id="send" value="Abschicken" class="btn btn-custom" />
