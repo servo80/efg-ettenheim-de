@@ -9,7 +9,7 @@
         </div>
         <div class="mid-col">
           <a href="#">
-            <h3>{$service->serviceSermonTopic}</h3>
+            <h3>{echo nl2br($service->serviceSermonTopic);}</h3>
           </a>
           <div class="details"><span>von {$service->servicePreacher} am {echo strftime('%d.%m.%Y', $service->serviceDate);}.</div>
         </div>
