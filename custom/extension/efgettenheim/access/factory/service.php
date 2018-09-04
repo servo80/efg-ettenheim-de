@@ -38,7 +38,8 @@
      * @var array
      */
     protected $childTableIdentifier = array(
-    	'agenda'
+    	'agenda',
+    	'song'
     );
     /**
      * @var string
@@ -55,7 +56,7 @@
     	'serviceSermonRecording',
     	'serviceModerator',
     	'servicePreacher',
-    	'staffWorshipLeader',
+    	'serviceWorshipLeader',
     	'serviceSundaySchoolTeacherSmall',
     	'serviceSundaySchoolTeacherBig',
     	'serviceAudioEngineer',

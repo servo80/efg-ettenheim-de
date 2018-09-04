@@ -32,7 +32,7 @@
      * @var array
      */
     protected $parentTableIdentifier = array(
-    	
+    	'service'
     );
     /**
      * @var array

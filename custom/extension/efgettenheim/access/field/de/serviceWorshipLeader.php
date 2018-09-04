@@ -6,12 +6,12 @@
    * @package efgettenheim
    * @category Extension
    */
-  class staffWorshipLeader extends \BB\access\field {
+  class serviceWorshipLeader extends \BB\access\field {
   
     /**
      * @var string $fieldID
      */
-    protected $fieldID = 'staffWorshipLeader';
+    protected $fieldID = 'serviceWorshipLeader';
     /**
      * @var string
      */

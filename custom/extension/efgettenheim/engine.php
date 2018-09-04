@@ -1,5 +1,18 @@
 <?php
 
+  // TODO
+  // Lieder suchen, erfassen, bearbeiten
+  // Ablauf
+  //  - Frontend mit sortable
+  //  - PDF-Erstellung
+  // Rechte implementieren
+  //  - Bearbeitungszeitpunkte (nach Godi nicht mehr änderbar
+  //  - Links in Kalender
+  //  - Rechteprüfungen beim Öffnen und Speichern
+  // Cron mit Infomails implementieren
+  // Login-Bereich
+
+
   namespace BB\custom\extension\efgettenheim {
 
     if(@secure !== true)
@@ -17,16 +30,27 @@
        *
        */
       public function viewCalendar(){
+        $startTimestamp = time();
+        $dayAsTimestamp = 24*60*60;
+        $endTimestamp = $startTimestamp + 365*$dayAsTimestamp;
+        $calendarEvents = [];
+        for($currentTimestamp = $startTimestamp; $currentTimestamp <= $endTimestamp; $currentTimestamp += $dayAsTimestamp):
+          $currentWeekDay = strftime('%w', $currentTimestamp);
+          if(0 == $currentWeekDay):
+            $calendarEvents[] = [
+              'title' => 'Gottesdienst',
+              'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp)
+            ];
+          endif;
+        endfor;
 
-        $calendarEvents = [
-          [
-            'title' => "test",
-            'start' => "2018-08-21 10:00"
-          ]
-        ];
+        $calendarEventsEncoded = json_encode($calendarEvents);
+
+        if($this->mode == 'edit') $calendarEventsEncoded = '';
 
         $this->view
-          ->assign('calendarEvents', json_encode($calendarEvents))
+          ->assign('calendarEvents', $calendarEventsEncoded)
+          ->assign('calendarEventsEditPage', $this->getLink($this->values['pageEditEvent']['cnv_value'], true))
           ->assign('h1', $this->values['h1']['cnv_value'])
           ->assign('h2', $this->values['h2']['cnv_value'])
         ;
@@ -55,6 +79,49 @@
 
       }
 
+      private function searchSong() {
+
+        $bbRequest = \BB\request\http::get();
+        $searchTerm = $bbRequest->getString('q');
+
+        $songBooksIDsAsNames = $this->getSongBookIDsAsNames();
+
+        $songSearch = new \BB\custom\extension\efgettenheim\lib\search\songSearch($searchTerm);
+        $songFactory = \BB\custom\extension\efgettenheim\access\factory\song::get();
+        $searchResults = $songFactory->searchRows($songSearch, true);
+
+        $results = [];
+        foreach($searchResults as $searchResult):
+          $resultItem = new \stdClass();
+          $resultItem->id = $searchResult->getContentID();
+          $resultItem->text = $searchResult->songTitle.' ('.$songBooksIDsAsNames[$searchResult->songBook].', '.$searchResult->songNumber.')';
+          $results[] = $resultItem;
+        endforeach;
+
+        $response = [
+          'results' => $results
+        ];
+
+        $this->json($response);
+
+      }
+
+      /**
+       * @return array
+       */
+      private function getSongBookIDsAsNames() {
+        $songBookSearch = new \BB\custom\extension\efgettenheim\lib\search\songBookSearch($searchTerm);
+        $songBookFactory = \BB\custom\extension\efgettenheim\access\factory\songBook::get();
+        $songBookRows = $songBookFactory->searchRows($songBookSearch, true);
+
+        $songBooksIDsAsNames = [];
+        foreach($songBookRows as $songBookRow):
+          $songBooksIDsAsNames[$songBookRow->getContentID()] = $songBookRow->songBookTitle;
+        endforeach;
+
+        return $songBooksIDsAsNames;
+      }
+
       /**
        *
        */
@@ -62,12 +129,20 @@
 
         $bbRequest = \BB\request\http::get();
         $eventTimestamp = $bbRequest->getString('eventTimestamp');
+        $editMode = $bbRequest->getString('mode');
+        $searchSong = $bbRequest->getBoolean('searchSong');
+
+        if($searchSong):
+          $this->searchSong();
+        endif;
 
         $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);
+        $serviceSongBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
+        $songs = $serviceSongBridge->getSongRows($serviceRow->getContentID());
 
         $modelField = \BB\model\field::get();
 
-        $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers();
+        $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers($editMode);
 
         foreach($formFieldIdentifiers as $formFieldIdentifier):
 
@@ -79,32 +154,75 @@
             'fieldName' => $formFieldIdentifier,
             'fieldValue' => $formFieldValue,
             'field' => $formFieldField,
-            'attribute' => '',
             'userID' => 0
           ];
 
           $formField = \BB\model\formField::instance($options);
+
           $this->view
-            ->assign('formField'.ucfirst($formFieldIdentifier), $formField->getField());
+            ->add('formField'.ucfirst($formFieldIdentifier), $formField->getField());
 
         endforeach;
 
-        $this->view
-          ->assign('eventID', $serviceRow->getContentID());
+        $songBooksIDsAsNames = $this->getSongBookIDsAsNames();
+        foreach($songs as $song):
+          $song->songTitle = $song->songTitle.' ('.$songBooksIDsAsNames[$song->songBook].', '.$song->songNumber.')';
+        endforeach;
 
+        $this->view
+          ->add('eventTimestamp', $eventTimestamp)
+          ->add('editMode', $editMode)
+          ->add('songs', $songs)
+          ->assign('calendarPage', $this->getLink($this->values['pageCalendar']['cnv_value'], true))
+          ->assign('eventID', $serviceRow->getContentID())
+        ;
+
+      }
+
+      /**
+       * @param string $editMode
+       * @return array
+       */
+      private function getAllowedFormFieldIdentifiers($editMode) {
+
+        switch($editMode):
+
+          case 'sermonTopic':
+            $formFieldIdentifiers = [
+              'serviceSermonTopic'
+            ];
+            break;
+
+          case 'songs':
+            $formFieldIdentifiers = [
+            ];
+            break;
+
+          default:
+            $formFieldIdentifiers = [
+              'serviceModerator',
+              'servicePreacher',
+              'serviceWorshipMusicians',
+              'serviceWorshipLeader',
+              'serviceSundaySchoolTeacherSmall',
+              'serviceSundaySchoolTeacherBig',
+              'serviceAudioEngineer',
+              'serviceReceptionist'
+            ];
+
+            break;
+
+        endswitch;
+
+        return $formFieldIdentifiers;
       }
 
       /**
        * @return array
        */
-      private function getAllowedFormFieldIdentifiers() {
+      private function isMultiSelect($checkIdentifier) {
 
-        return [
-          'serviceModerator',
-          'servicePreacher',
-          'serviceWorshipMusicians',
-        ];
-
+        return in_array($checkIdentifier, ['serviceWorshipMusicians']);
       }
 
       /**
@@ -133,6 +251,18 @@
         if(empty($serviceRow)):
           $serviceRow = $serviceFactory->getRow(0);
           $serviceRow->serviceDate = $eventTimestamp;
+          $serviceRow->serviceLabel = strftime('%A, den %d.%m.%Y', $eventTimestamp);
+          $serviceRow->serviceAdditionalInfo = '';
+          $serviceRow->serviceSermonTopic = '';
+          $serviceRow->serviceSermonRecording = '';
+          $serviceRow->serviceModerator = 0;
+          $serviceRow->servicePreacher = 0;
+          $serviceRow->staffWorshipLeader = 0;
+          $serviceRow->serviceSundaySchoolTeacherSmall = 0;
+          $serviceRow->serviceSundaySchoolTeacherBig = 0;
+          $serviceRow->serviceAudioEngineer = 0;
+          $serviceRow->serviceReceptionist = 0;
+          $serviceRow->serviceWorshipMusicians = '';
           $serviceRow->save();
         endif;
 
@@ -160,21 +290,54 @@
 
         $bbRequest = \BB\request\http::get();
         $eventID = $bbRequest->getInteger('eventID');
+        $editMode = $bbRequest->getString('mode');
+        $sendInfo = $bbRequest->getBoolean('sendInfo');
+        $songIDs = $bbRequest->getString('songIDs');
 
-        $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers();
+        if($sendInfo):
+          $this->sendInfoMail($editMode);
+        endif;
+
+        if($editMode == 'songs'):
+          $serviceSongBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
+          $songs = $serviceSongBridge->getSongRows($eventID);
+          $unrelateSongIDs = [];
+          foreach($songs as $song):
+            $unrelateSongIDs[] = $song->getContentID();
+          endforeach;
+          $serviceSongBridge->unrelate($eventID, $unrelateSongIDs);
+          $serviceSongBridge->relate($eventID, explode('|', $songIDs));
+          \brandbox\api\cache\cache::get()->cache = [];
+        endif;
+
+        $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers($editMode);
         $serviceRow = $this->getServiceRowByEventID($eventID);
-        print_r($serviceRow);exit;
+
         foreach($formFieldIdentifiers as $formFieldIdentifier):
-          $formFieldValue = $bbRequest->getString($formFieldIdentifier);
-          if(is_array($formFieldValue)):
-            $formFieldValue = implode('|', $formFieldValue);
+
+          if($this->isMultiSelect($formFieldIdentifier)):
+            $formFieldValue = $bbRequest->getArray($formFieldIdentifier);
+            $formFieldValue = '|'.implode('|', $formFieldValue).'|';
+          else:
+            $formFieldValue = $bbRequest->getParam($formFieldIdentifier);
           endif;
           $serviceRow->{$formFieldIdentifier} = $formFieldValue;
         endforeach;
-print_r($serviceRow);
+
         $serviceRow->save();
 
       }
+
+      /**
+       * @param string $editMode
+       */
+      private function sendInfoMail($editMode) {
+
+
+
+      }
+
+
 
     }
 

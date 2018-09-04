@@ -163,12 +163,12 @@
 						"f_identifier": "serviceSermonTopic",
 						"f_name": "Predigtthema",
 						"f_type": "varchar",
-						"f_form": "input",
+						"f_form": "text",
 						"f_in_group": 0,
 						"f_length": 255,
 						"f_monolingual": 1,
 						"f_width": 300,
-						"f_height": 1,
+						"f_height": 3,
 						"f_search": 0
 					},
 					{

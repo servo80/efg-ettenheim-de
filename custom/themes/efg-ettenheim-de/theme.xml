@@ -6,6 +6,10 @@
       <file type="text/javascript" href="application/javascript/jquery.js" />
       <file type="text/javascript" href="application/javascript/jquery.fancybox.pack.js" />
       <file type="text/javascript" href="application/javascript/select2/select2.js" />
+      <file type="text/javascript" href="application/javascript/jquery.ui.core.js" />
+      <file type="text/javascript" href="application/javascript/jquery.ui.widget.js" />
+      <file type="text/javascript" href="application/javascript/jquery.ui.mouse.js" />
+      <file type="text/javascript" href="application/javascript/jquery.ui.sortable.js" />
       <file type="text/css" href="application/javascript/css/jquery.fancybox.css" />
       <file type="text/css" href="application/javascript/select2/select2.css" />
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/bootstrap.min.js" />
@@ -28,6 +32,7 @@
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/rev-setting-1.js" />
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/moment.min.js" />
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/fullcalendar.min.js" />
+      <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/de.js" />
       <location key="top" width="100%" />
       <location key="main" width="100%" />
     </template>

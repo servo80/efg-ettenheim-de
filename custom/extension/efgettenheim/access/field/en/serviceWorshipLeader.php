@@ -6,12 +6,12 @@
    * @package efgettenheim
    * @category Extension
    */
-  class staffWorshipLeader extends \BB\custom\extension\efgettenheim\access\field\de\staffWorshipLeader {
+  class serviceWorshipLeader extends \BB\custom\extension\efgettenheim\access\field\de\serviceWorshipLeader {
   
     /**
      * @var string $fieldID
      */
-    protected $fieldID = 'staffWorshipLeader';
+    protected $fieldID = 'serviceWorshipLeader';
     /**
      * @var string
      */

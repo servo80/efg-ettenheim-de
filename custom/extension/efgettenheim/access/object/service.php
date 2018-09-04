@@ -40,9 +40,9 @@
      */
     public $servicePreacher;
     /**
-     * @var integer $staffWorshipLeader
+     * @var integer $serviceWorshipLeader
      */
-    public $staffWorshipLeader;
+    public $serviceWorshipLeader;
     /**
      * @var integer $serviceSundaySchoolTeacherSmall
      */

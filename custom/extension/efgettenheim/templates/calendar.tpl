@@ -8,4 +8,5 @@
   </div>
 </section>
 <a href="http://localhost/efg-ettenheim-de-4/de/Login.html" id="calendarEditEvent">TEST</a>
-<div id="calendarEvents">{calendarEvents}</div>
+<div id="calendarEvents" style="display:none;">{calendarEvents}</div>
+<div id="calendarEventsEditPage" style="display:none;">{calendarEventsEditPage}</div>

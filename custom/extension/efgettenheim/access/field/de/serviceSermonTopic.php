@@ -35,7 +35,7 @@
     /**
      * @var string $form
      */
-    protected $form = 'input';
+    protected $form = 'text';
     /**
      * @var string $unit
      */
@@ -65,7 +65,7 @@
     /**
      * @var int $height
      */
-    protected $height = 1;
+    protected $height = 3;
     /**
      * @var boolean $isSearchable
      */
