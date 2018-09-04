@@ -7,3 +7,5 @@
     </div>
   </div>
 </section>
+<a href="http://localhost/efg-ettenheim-de-4/de/Login.html" id="calendarEditEvent">TEST</a>
+<div id="calendarEvents">{calendarEvents}</div>

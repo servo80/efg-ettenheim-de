@@ -17,7 +17,7 @@ jQuery(document).ready(function() {
 				{
 					title: '[10:00] Transforming Live',
 					start: '2015-02-10'
-				},			
+				},
 				{
 					title: '[09:00] Relationship With God',
 					start: '2015-20-20'
@@ -34,8 +34,8 @@ jQuery(document).ready(function() {
 					title: '[10:00] Jehovah Jireh',
 					start: '2015-03-10'
 				},
-				
+
 			]
 		});
-		
+
 	});

@@ -27,7 +27,7 @@
   \BB\config::set('debug:file', true);
   \BB\config::set('debug:ftp', false);
   \BB\config::set('debug:out', 'chrome'); // chrome|firefox|plain|html|mail|none
-  \BB\config::set('log:level', 'debug'); // chrome|firefox|plain|html|mail|none
+  \BB\config::set('log:level', 'DEBUG'); // chrome|firefox|plain|html|mail|none
 
   /*
    * Config:MySQL
@@ -127,7 +127,7 @@
    * Config:Time
    */
   setlocale(LC_TIME, 'de_DE@euro.UTF-8', 'de_DE.UTF-8', 'deu_deu.UTF-8');
-  date_default_timezone_set('Europe/Berlin');
+  date_default_timezone_set('UTC');
 
   #putenv("MAGICK_THREAD_LIMIT=1");
 	#putenv("OMP_NUM_THREADS=1");

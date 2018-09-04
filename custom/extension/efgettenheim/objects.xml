@@ -2,6 +2,11 @@
 <objects>
 
   <object name="Gottesdienst: Kalender" id="calendar" view="calendar" engine="extension" stage="0" locations="1">
+    <file type="text/javascript" href="custom/extension/efgettenheim/lib/js/calendar.js" />
   </object>
+
+  <object name="Gottesdienst: Event bearbeiten" id="editEvent" view="editEvent" engine="extension" stage="0" locations="1" />
+
+  <object name="Predigtarchiv" id="sermons" view="sermons" engine="extension" stage="0" locations="1" />
 
 </objects>
