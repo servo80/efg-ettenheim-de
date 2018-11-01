@@ -3,17 +3,22 @@
   // TODO
   // Lieder suchen, erfassen, bearbeiten
   // Ablauf
-  //  - Frontend mit sortable
   //  - PDF-Erstellung
   // Rechte implementieren
   //  - Bearbeitungszeitpunkte (nach Godi nicht mehr änderbar
   //  - Links in Kalender
   //  - Rechteprüfungen beim Öffnen und Speichern
   // Cron mit Infomails implementieren
+
+
+  // DONE
   // Login-Bereich
+  //  - Frontend mit sortable
 
 
   namespace BB\custom\extension\efgettenheim {
+
+    use BB\custom\extension\efgettenheim\lib\classes\agendaPdf;
 
     if(@secure !== true)
       die('forbidden');
@@ -63,12 +68,11 @@
       public function viewSermons(){
 
         $serviceRows = $this->getServiceRowsForSermons();
-        $staffFactory = \BB\custom\extension\efgettenheim\access\factory\staff::get();
+
 
         foreach($serviceRows as $serviceRow):
           $staffID = $serviceRow->servicePreacher;
-          $staffRow = $staffFactory->getRow($staffID);
-          $serviceRow->servicePreacher = $staffRow->staffFirstname.' '.$staffRow->staffLastname;
+          $serviceRow->servicePreacher = $this->getStaffFullName($staffID);
         endforeach;
 
         $this->view
@@ -79,6 +83,20 @@
 
       }
 
+      /**
+       * @param int $staffID
+       * @return string
+       */
+      private function getStaffFullName($staffID) {
+
+        $staffFactory = \BB\custom\extension\efgettenheim\access\factory\staff::get();
+        $staffRow = $staffFactory->getRow($staffID);
+        return $staffRow->staffFirstname.' '.$staffRow->staffLastname;
+      }
+
+      /**
+       *
+       */
       private function searchSong() {
 
         $bbRequest = \BB\request\http::get();
@@ -138,7 +156,9 @@
 
         $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);
         $serviceSongBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
+        $serviceAgendaBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceAgenda::get();
         $songs = $serviceSongBridge->getSongRows($serviceRow->getContentID());
+        $agenda = $serviceAgendaBridge->getAgendaRows($serviceRow->getContentID());
 
         $modelField = \BB\model\field::get();
 
@@ -173,11 +193,17 @@
           ->add('eventTimestamp', $eventTimestamp)
           ->add('editMode', $editMode)
           ->add('songs', $songs)
+          ->add('agenda', $agenda)
+          ->add('sermonTopic', $serviceRow->serviceSermonTopic)
+          ->add('preacherName', $this->getStaffFullName($serviceRow->servicePreacher))
+          ->add('moderatorName', $this->getStaffFullName($serviceRow->serviceModerator))
           ->assign('calendarPage', $this->getLink($this->values['pageCalendar']['cnv_value'], true))
           ->assign('eventID', $serviceRow->getContentID())
         ;
 
       }
+
+
 
       /**
        * @param string $editMode
@@ -187,6 +213,9 @@
 
         switch($editMode):
 
+          case 'agenda':
+            break;
+
           case 'sermonTopic':
             $formFieldIdentifiers = [
               'serviceSermonTopic'
@@ -194,27 +223,68 @@
             break;
 
           case 'songs':
-            $formFieldIdentifiers = [
-            ];
+            $formFieldIdentifiers = [];
             break;
 
           default:
-            $formFieldIdentifiers = [
-              'serviceModerator',
-              'servicePreacher',
-              'serviceWorshipMusicians',
-              'serviceWorshipLeader',
-              'serviceSundaySchoolTeacherSmall',
-              'serviceSundaySchoolTeacherBig',
-              'serviceAudioEngineer',
-              'serviceReceptionist'
-            ];
 
+            $formFieldIdentifiers = $this->getFormFieldsByRight();
             break;
 
         endswitch;
 
         return $formFieldIdentifiers;
+      }
+
+      /**
+       * @return array
+       */
+      private function getFormFieldsByRight() {
+
+        $rights = $this->getRights();
+        $formFieldIdentifiers = [];
+
+        if($rights->hasRightToManageModerators()):
+          $formFieldIdentifiers[] = 'serviceModerator';
+        endif;
+
+        if($rights->hasRightToManagePreachers()):
+          $formFieldIdentifiers[] = 'servicePreacher';
+        endif;
+
+        if($rights->hasRightToManageWorship()):
+          $formFieldIdentifiers[] = 'serviceWorshipLeader';
+          $formFieldIdentifiers[] = 'serviceWorshipMusicians';
+        endif;
+
+        if($rights->hasRightToManageAudioEngineers()):
+          $formFieldIdentifiers[] = 'serviceAudioEngineer';
+        endif;
+
+        if($rights->hasRightToManageSundaySchool()):
+          $formFieldIdentifiers[] = 'serviceSundaySchoolTeacherSmall';
+          $formFieldIdentifiers[] = 'serviceSundaySchoolTeacherBig';
+        endif;
+
+        if($rights->hasRightToManageReception()):
+          $formFieldIdentifiers[] = 'serviceReceptionist';
+        endif;
+
+        return $formFieldIdentifiers;
+
+      }
+
+      /**
+       * @return lib\classes\rights
+       */
+      private function getRights() {
+
+        $session = \BB\request\session::get();
+        $userID = $session->getByPath('user/userID');
+
+        $rights = \BB\custom\extension\efgettenheim\lib\classes\rights::get($userID);
+
+        return $rights;
       }
 
       /**
@@ -281,8 +351,6 @@
         return $serviceRow;
       }
 
-
-
       /**
        *
        */
@@ -292,11 +360,16 @@
         $eventID = $bbRequest->getInteger('eventID');
         $editMode = $bbRequest->getString('mode');
         $sendInfo = $bbRequest->getBoolean('sendInfo');
+        $createPdf = $bbRequest->getBoolean('createPdf');
         $songIDs = $bbRequest->getString('songIDs');
+        $agendaJSON = $bbRequest->getString('agenda');
+        $agenda = json_decode($agendaJSON);
 
         if($sendInfo):
           $this->sendInfoMail($editMode);
         endif;
+
+        $serviceRow = $this->getServiceRowByEventID($eventID);
 
         if($editMode == 'songs'):
           $serviceSongBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
@@ -308,23 +381,74 @@
           $serviceSongBridge->unrelate($eventID, $unrelateSongIDs);
           $serviceSongBridge->relate($eventID, explode('|', $songIDs));
           \brandbox\api\cache\cache::get()->cache = [];
+        elseif($editMode == 'agenda'):
+          $serviceAgendaBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceAgenda::get();
+          $factoryAgenda = \BB\custom\extension\efgettenheim\access\factory\agenda::get();
+          $storedAgendas = $serviceAgendaBridge->getAgendaRows($eventID);
+          $unrelateAgendaIDs = [];
+          foreach($storedAgendas as $storedAgenda):
+            $unrelateAgendaIDs[] = $storedAgenda->getContentID();
+          endforeach;
+          $serviceAgendaBridge->unrelate($eventID, $unrelateAgendaIDs);
+
+          $agendaIDs = array();
+          $agendaRows = array();
+          foreach($agenda as $agendaPosition):
+            $agendaID = $agendaPosition->agendaID;
+            $agendaTitle = $agendaPosition->agendaTitle;
+            $agendaResponsible = $agendaPosition->agendaResponsible;
+            $agendaRemarks = $agendaPosition->agendaRemarks;
+            $songID = (int)$agendaPosition->songID;
+
+            if(!is_numeric($agendaID) && mb_substr($agendaID, 0, 3) == 'new'):
+              $agendaRow = $factoryAgenda->getRow(0);
+            else:
+              $agendaRow = $factoryAgenda->getRow($agendaID);
+            endif;
+
+            $agendaRow->agendaTitle = $agendaTitle;
+            $agendaRow->agendaResponsible = $agendaResponsible;
+            $agendaRow->agendaRemarks = $agendaRemarks;
+            if($songID > 0):
+              $agendaRow->agendaSong = $songID;
+            endif;
+            $agendaRow->save();
+            $agendaRows[] = $agendaRow;
+            $agendaIDs[] = $agendaRow->getContentID();
+
+          endforeach;
+
+          $serviceAgendaBridge->relate($eventID, $agendaIDs);
+          \brandbox\api\cache\cache::get()->cache = [];
+
+        else:
+
+          $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers($editMode);
+
+          foreach($formFieldIdentifiers as $formFieldIdentifier):
+
+            if($this->isMultiSelect($formFieldIdentifier)):
+              $formFieldValue = $bbRequest->getArray($formFieldIdentifier);
+              $formFieldValue = '|'.implode('|', $formFieldValue).'|';
+            else:
+              $formFieldValue = $bbRequest->getParam($formFieldIdentifier);
+            endif;
+            $serviceRow->{$formFieldIdentifier} = $formFieldValue;
+          endforeach;
+
+          $serviceRow->save();
+
         endif;
 
-        $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers($editMode);
-        $serviceRow = $this->getServiceRowByEventID($eventID);
+        if($createPdf):
+          $agendaPdf = new \BB\custom\extension\efgettenheim\lib\classes\agendaPdf(
+            $serviceRow,
+            $agendaRows
+          );
+          $agendaPdf->build();
+          $agendaPdf->output();
+        endif;
 
-        foreach($formFieldIdentifiers as $formFieldIdentifier):
-
-          if($this->isMultiSelect($formFieldIdentifier)):
-            $formFieldValue = $bbRequest->getArray($formFieldIdentifier);
-            $formFieldValue = '|'.implode('|', $formFieldValue).'|';
-          else:
-            $formFieldValue = $bbRequest->getParam($formFieldIdentifier);
-          endif;
-          $serviceRow->{$formFieldIdentifier} = $formFieldValue;
-        endforeach;
-
-        $serviceRow->save();
 
       }
 

@@ -50,7 +50,8 @@
     protected $fields = array(
     	'agendaSong',
     	'agendaTitle',
-    	'agendaRemarks'
+    	'agendaRemarks',
+    	'agendaResponsible'
     );
     /**
      * @param int $languageID

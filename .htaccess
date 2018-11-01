@@ -50,6 +50,7 @@ RewriteRule ^file/shop/(.*?)$ direct.php?route=direct,Index,ShowShop&src=$1 [L]
 RewriteRule ^video/(.*?)$ direct.php?route=direct,Index,Video&src=$1 [L]
 RewriteRule ^download/public/(.*?)$ direct.php?route=direct,Index,Download&src=$1 [L]
 RewriteRule ^image/([0-9]*)/(.*?)$ direct.php?route=direct,Index,Image&src=$2 [QSA,L]
+RewriteRule ^core/image/([0-9]*)/(.*?)$ direct.php?route=direct,Index,Image&src=$2 [QSA,L]
 
 # HTML-Seite
 RewriteRule ^(([a-zA-Z0-9_-]*)/)?(.*?)\.html(.*?)$ stage.php?file=$3&lang=$2&%{QUERY_STRING}

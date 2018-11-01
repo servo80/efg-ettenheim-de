@@ -1,7 +1,7 @@
 <div class="container mt-20 mb-20">
   <div class="row">
     <div class="col-md-12">
-      <h3>Gottesdienst am {echo strftime('%d.%m.%Y', $eventTimestamp);}</h3>
+      <h2>Gottesdienst am {echo strftime('%d.%m.%Y', $eventTimestamp);}</h2>
 
       <form method="post" id="editEvent">
 
@@ -9,7 +9,9 @@
         <input type="hidden" name="editMode" value="{$editMode}" />
         <input type="hidden" name="exec" value="saveEvent" />
         <input type="hidden" name="sendInfo" id="sendInfo" value="0" />
+        <input type="hidden" name="createPdf" id="createPdf" value="0" />
         <input type="hidden" name="songIDs" id="songIDs" value="" />
+        <input type="hidden" name="agenda" id="agenda" value="" />
 
         {if(!empty($formFieldServiceModerator)):}
         <div class="form-group">
@@ -78,26 +80,82 @@
         <div class="form-group">
           <label>Lieder</label><br />
           <input type="text" value="" id="serviceSongs" />
-          <input type="button" value="Auswählen" id="serviceSongAdd" class="btn btn-default" />
+          <input type="button" value="Auswählen" id="serviceSongAdd" class="btn btn-primary" />
         </div>
 
         <div class="form-group">
-          <div id="sortable">
+          <div id="songSortable">
             {foreach($songs as $song):}
             <div data-id="{$song->getContentID()}" onclick="jQuery(this).remove();">{$song->songTitle}</div>
             {endforeach;}
           </div>
         </div>
+        {endif;}
+
+        {if($editMode == 'agenda'):}
+
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Ablauf</h3>
+            <div class="form-group">
+              <div id="agendaSortable">
+                {foreach($agenda as $agenda):}
+                <div style="cursor:pointer;" class="alert alert-success" data-song-id="{$agenda->agendaSong}" data-responsible="{$agenda->agendaResponsible}" data-remarks="{$agenda->agendaRemarks}" data-id="{$agenda->getContentID()}">
+                  <span>{$agenda->agendaTitle}</span>
+                  <a onclick="jQuery(this).parent().remove();"><i class="fa fa-trash-o" style="float:right;"></i></a>
+                  <a onclick="jQuery(this).parent().editAgenda();"><i class="fa fa-pencil-square" style="float:right;margin-right:10px;"></i></a>
+                </div>
+                {endforeach;}
+              </div>
+            </div>
+
+            <input type="button" value="PDF ansehen" class="btn btn-primary" onclick="jQuery('#createPdf').val(1);jQuery('#editEvent').submit();" />
+
+          </div>
+
+          <div class="col-md-6">
+            <h3>Neuen Programmpunkt einfügen</h3>
+            <div class="form-group">
+              <label>Bezeichnung</label><br />
+              <input type="text" id="serviceAgendaTitle" style="width:500px;" />
+            </div>
+            <div class="form-group">
+              <label>Verantwortlich</label><br />
+              <input type="text" id="serviceAgendaResponsible" style="width:500px;" />
+            </div>
+            <div class="form-group">
+              <label>Anmerkungen</label><br />
+              <textarea id="serviceAgendaRemarks" style="width:500px;"></textarea>
+              <br />
+              <input type="hidden" value="" id="serviceAgendaEditID" />
+              <input type="button" value="Ändern" id="serviceAgendaEdit" class="btn btn-primary" onclick="jQuery(this).saveAgenda();" />
+              <input type="button" value="Einfügen" id="serviceAgendaAdd" class="btn btn-primary" />
+            </div>
+
+            <h3>Vordefinierte Programmpunkte</h3>
+            <div class="form-group" id="agendaBlocks">
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Predigt von {$preacherName}: {$sermonTopic}</div>
+              {foreach($songs as $song):}
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="Musikteam" data-song-id="{$song->getContentID()}">Lied: {$song->songTitle}</div>
+              {endforeach;}
+              <div style="cursor:pointer;" class="alert alert-info">Gebetsgemeinschaft</div>
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$moderatorName}">Begrüßung</div>
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Segen</div>
+              <div style="cursor:pointer;" class="alert alert-info">Infoteil</div>
+              <div style="cursor:pointer;" class="alert alert-info">Kollekte</div>
+            </div>
+          </div>
+        </div>
 
         {endif;}
 
-        <input type="submit" value="Speichern" class="btn btn-default" />
+        <input type="submit" value="Speichern" class="btn btn-primary" />
 
         {if($editMode === 'sermonTopic'):}
-          <input type="button" value="Speichern und Musikteamleiter informieren" class="btn btn-default" onclick="jQuery('#sendInfo').val(1);jQuery('#editEvent').submit();" />
+          <input type="button" value="Speichern und Musikteamleiter informieren" class="btn btn-primary" onclick="jQuery('#sendInfo').val(1);jQuery('#editEvent').submit();" />
         {endif;}
 
-        <a href="{calendarPage}" class="btn btn-default">Zum Kalender</a>
+        <a href="{calendarPage}" class="btn btn-primary">Zum Kalender</a>
 
       </form>
     </div>

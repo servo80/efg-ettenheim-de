@@ -23,6 +23,10 @@
      * @var string $agendaRemarks
      */
     public $agendaRemarks;
+    /**
+     * @var string $agendaResponsible
+     */
+    public $agendaResponsible;
   }
 
 ?>

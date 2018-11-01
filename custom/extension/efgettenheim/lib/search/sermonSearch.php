@@ -16,7 +16,7 @@
        */
       public function __construct($timestamp) {
 
-        $this->timestamp = $timestamp-100*24*60*60;
+        $this->timestamp = $timestamp-1000*24*60*60;
 
       }
 
