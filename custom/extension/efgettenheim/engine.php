@@ -2,8 +2,7 @@
 
   // TODO
   // Lieder suchen, erfassen, bearbeiten
-  // Ablauf
-  //  - PDF-Erstellung
+
   // Rechte implementieren
   //  - Bearbeitungszeitpunkte (nach Godi nicht mehr änderbar
   //  - Links in Kalender
@@ -12,13 +11,13 @@
 
 
   // DONE
-  // Login-Bereich
+  // Ablauf
+  //  - PDF-Erstellung
   //  - Frontend mit sortable
+  // Login-Bereich
 
 
   namespace BB\custom\extension\efgettenheim {
-
-    use BB\custom\extension\efgettenheim\lib\classes\agendaPdf;
 
     if(@secure !== true)
       die('forbidden');
