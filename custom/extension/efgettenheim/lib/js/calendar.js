@@ -135,7 +135,7 @@ jQuery(document).ready(function() {
     eventClick: function(calEvent, jsEvent, view) {
 
       var timestamp = calEvent.start.unix();
-      window.open(calendarEventsEditPage + '?eventTimestamp='+timestamp,'_blank');
+      window.open(calendarEventsEditPage + '?eventTimestamp='+timestamp+(calEvent.className != '' ? '&mode='+calEvent.className : ''),'_blank');
 
     }
   });

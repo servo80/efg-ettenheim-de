@@ -9,7 +9,7 @@
         <input type="hidden" name="editMode" value="{$editMode}" />
         <input type="hidden" name="exec" value="saveEvent" />
         <input type="hidden" name="sendInfo" id="sendInfo" value="0" />
-        <input type="hidden" name="createPdf" id="createPdf" value="0" />
+        <input type="hidden" name="createPdf" id="createPdf" value="0 " />
         <input type="hidden" name="songIDs" id="songIDs" value="" />
         <input type="hidden" name="agenda" id="agenda" value="" />
 
@@ -149,10 +149,18 @@
 
         {endif;}
 
+        {if($eventTimestamp < time()):}
+
+        <div class="alert alert-danger">Die Veranstaltung liegt in der Vergangenheit und kann nicht mehr bearbeitet werden.</div>
+
+        {else:}
+
         <input type="submit" value="Speichern" class="btn btn-primary" />
 
         {if($editMode === 'sermonTopic'):}
           <input type="button" value="Speichern und Musikteamleiter informieren" class="btn btn-primary" onclick="jQuery('#sendInfo').val(1);jQuery('#editEvent').submit();" />
+        {endif;}
+
         {endif;}
 
         <a href="{calendarPage}" class="btn btn-primary">Zum Kalender</a>

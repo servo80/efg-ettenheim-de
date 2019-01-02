@@ -9,14 +9,22 @@
     class eventSearch extends \BB\access\search {
 
       private $timestamp = 0;
+      private $fromTimestamp = 0;
+      private $toTimestamp = 0;
 
       /**
        * eventSearch constructor.
-       * @param $timestamp
+       * @param int $fromTimestamp
+       * @param int $toTimestamp
        */
-      public function __construct($timestamp) {
+      public function __construct($fromTimestamp, $toTimestamp = 0) {
 
-        $this->timestamp = $timestamp;
+        if(0 === $toTimestamp):
+          $this->timestamp = $fromTimestamp;
+        else:
+          $this->fromTimestamp = $fromTimestamp;
+          $this->toTimestamp = $toTimestamp;
+        endif;
 
       }
 
@@ -25,9 +33,39 @@
        */
       public function build() {
 
-        $conditionTimestamp = $this->getConditionTimestamp();
-        $this->add($conditionTimestamp);
+        if(0 !== $this->timestamp):
+          $conditionTimestamp = $this->getConditionTimestamp();
+          $this->add($conditionTimestamp);
+        elseif(0 !== $this->fromTimestamp && 0 !== $this->toTimestamp):
+          $conditionTimestamp = $this->getConditionTimestampFromTo();
+          $this->add($conditionTimestamp);
+        endif;
         $this->add(new \BB\access\conditionAnd());
+
+      }
+
+      /**
+       * @return \BB\access\conditionFieldset
+       */
+      private function getConditionTimestampFromTo() {
+
+        $fieldset = new \BB\access\conditionFieldset();
+
+        $fieldFrom = new \BB\access\conditionField();
+        $fieldFrom
+          ->id(\BB\custom\extension\efgettenheim\access\field\de\serviceDate::class)
+          ->isGreaterThan($this->fromTimestamp);
+
+        $fieldTo = new \BB\access\conditionField();
+        $fieldTo
+          ->id(\BB\custom\extension\efgettenheim\access\field\de\serviceDate::class)
+          ->isLessThan($this->toTimestamp);
+
+
+        $fieldset->add($fieldFrom);
+        $fieldset->add($fieldTo);
+
+        return $fieldset;
 
       }
 

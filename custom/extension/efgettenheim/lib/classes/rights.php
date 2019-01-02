@@ -77,6 +77,27 @@
       /**
        * @return bool
        */
+      public function hasRightToEditWorshipSongs() {
+        return (bool)$this->staffRow->staffRightWorshipLeader;
+      }
+
+      /**
+       * @return bool
+       */
+      public function hasRightToEditSermonTopic() {
+        return (bool)$this->staffRow->staffRightPreacher || (bool)$this->staffRow->staffRightModerator;
+      }
+
+      /**
+       * @return bool
+       */
+      public function hasRightToEditAgenda() {
+        return (bool)$this->staffRow->staffRightModerator;
+      }
+
+      /**
+       * @return bool
+       */
       public function hasRightToManageAudioEngineers() {
         return (bool)$this->staffRow->staffRightAudioEngineeringManager;
       }

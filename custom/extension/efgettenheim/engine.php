@@ -2,15 +2,16 @@
 
   // TODO
   // Lieder suchen, erfassen, bearbeiten
+  // Cron mit Infomails implementieren
+  // besondere Veranstaltungen
+  // Benutzer und Passwort-Felder vereinheitlichen
 
+
+  // DONE
   // Rechte implementieren
   //  - Bearbeitungszeitpunkte (nach Godi nicht mehr änderbar
   //  - Links in Kalender
   //  - Rechteprüfungen beim Öffnen und Speichern
-  // Cron mit Infomails implementieren
-
-
-  // DONE
   // Ablauf
   //  - PDF-Erstellung
   //  - Frontend mit sortable
@@ -25,6 +26,7 @@
     class engine extends \BB\engine\common {
 
       protected $path = 'custom/extension/efgettenheim/';
+      protected $serviceRowsByEventTimestamp = [];
 
       protected $error = false;
       protected $sent = false;
@@ -34,17 +36,52 @@
        *
        */
       public function viewCalendar(){
+
         $startTimestamp = time();
         $dayAsTimestamp = 24*60*60;
-        $endTimestamp = $startTimestamp + 365*$dayAsTimestamp;
+        $endTimestamp = $startTimestamp + 30*$dayAsTimestamp;
         $calendarEvents = [];
         for($currentTimestamp = $startTimestamp; $currentTimestamp <= $endTimestamp; $currentTimestamp += $dayAsTimestamp):
           $currentWeekDay = strftime('%w', $currentTimestamp);
           if(0 == $currentWeekDay):
             $calendarEvents[] = [
               'title' => 'Gottesdienst',
-              'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp)
+              'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp),
+              'backgroundColor' => '#ff9681',
+              'className' => ''
             ];
+
+            $eventTimestamp = mktime(10, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
+
+            if($this->isResponsibleWorshipLeader($eventTimestamp) && $this->hasSermonTopic($eventTimestamp)):
+              $calendarEvents[] = [
+                'title' => 'Lieder bearbeiten',
+                'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp),
+                'backgroundColor' => '#acc7dc',
+                'className' => 'songs'
+              ];
+            endif;
+
+            if($this->isResponsiblePreacherOrModerator($eventTimestamp)):
+              $calendarEvents[] = [
+                'title' => 'Predigtthema bearbeiten',
+                'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp),
+                'backgroundColor' => '#bfe2ca',
+                'textColor' => '#000000',
+                'className' => 'sermonTopic'
+              ];
+            endif;
+
+            if($this->isResponsibleModerator($eventTimestamp) && $this->hasSongs($eventTimestamp) && $this->hasSermonTopic($eventTimestamp)):
+              $calendarEvents[] = [
+                'title' => 'Ablauf bearbeiten',
+                'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp),
+                'backgroundColor' => '#fed88f',
+                'textColor' => '#000000',
+                'className' => 'agenda'
+              ];
+            endif;
+
           endif;
         endfor;
 
@@ -161,6 +198,8 @@
 
         $modelField = \BB\model\field::get();
 
+        $this->checkEditRights($editMode, $eventTimestamp);
+
         $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers($editMode);
 
         foreach($formFieldIdentifiers as $formFieldIdentifier):
@@ -202,7 +241,34 @@
 
       }
 
+      /**
+       * @param string $editMode
+       * @param int $eventTimestamp
+       */
+      private function checkEditRights($editMode, $eventTimestamp) {
 
+        switch($editMode):
+
+          case 'agenda':
+            if(!$this->isResponsibleModerator($eventTimestamp)):
+              die('Sie haben nicht das Recht, den Ablauf zu bearbeiten.');
+            endif;
+            break;
+
+          case 'sermonTopic':
+            if(!$this->isResponsiblePreacherOrModerator($eventTimestamp)):
+              die('Sie haben nicht das Recht, das Predigtthema zu bearbeiten.');
+            endif;
+            break;
+
+          case 'songs':
+            if(!$this->isResponsiblePreacherOrModerator($eventTimestamp)):
+              die('Sie haben nicht das Recht, die Lieder zu bearbeiten.');
+            endif;
+            break;
+
+        endswitch;
+      }
 
       /**
        * @param string $editMode
@@ -278,12 +344,96 @@
        */
       private function getRights() {
 
-        $session = \BB\request\session::get();
-        $userID = $session->getByPath('user/userID');
+        $userID = $this->getUserID();
 
         $rights = \BB\custom\extension\efgettenheim\lib\classes\rights::get($userID);
 
         return $rights;
+      }
+
+      /**
+       * @return int
+       */
+      public function getUserID() {
+        $session = \BB\request\session::get();
+        $userID = $session->getByPath('user/userID');
+
+        return $userID;
+      }
+
+      /**
+       * @param int $eventTimestamp
+       * @return bool
+       */
+      private function isResponsibleWorshipLeader($eventTimestamp) {
+
+        $rights = $this->getRights();
+        $hasRightToEditWorshipSongs = $rights->hasRightToEditWorshipSongs();
+
+        $userID = $this->getUserID();
+        $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);
+
+        return ($hasRightToEditWorshipSongs && $userID === (int)$serviceRow->serviceWorshipLeader);
+
+      }
+
+      /**
+       * @param int $eventTimestamp
+       * @return bool
+       */
+      private function hasSermonTopic($eventTimestamp) {
+
+        $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);
+
+        return !empty($serviceRow->serviceSermonTopic);
+
+      }
+
+      /**
+       * @param int $eventTimestamp
+       * @return bool
+       */
+      private function hasSongs($eventTimestamp) {
+
+        $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);
+
+        $serviceSongBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
+        $songs = $serviceSongBridge->getSongRows($serviceRow->getContentID());
+
+        return count($songs) > 0;
+
+      }
+
+      /**
+       * @param int $eventTimestamp
+       * @return bool
+       */
+      private function isResponsiblePreacherOrModerator($eventTimestamp) {
+
+        $rights = $this->getRights();
+        $hasRightToEditSermonTopic = $rights->hasRightToEditSermonTopic();
+
+        $userID = $this->getUserID();
+        $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);
+
+        return ($hasRightToEditSermonTopic && in_array($userID, [(int)$serviceRow->serviceModerator, (int)$serviceRow->servicePreacher]));
+
+      }
+
+      /**
+       * @param int $eventTimestamp
+       * @return bool
+       */
+      private function isResponsibleModerator($eventTimestamp) {
+
+        $rights = $this->getRights();
+        $hasRightToEditAgenda = $rights->hasRightToEditAgenda();
+
+        $userID = $this->getUserID();
+        $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);
+
+        return ($hasRightToEditAgenda && $userID === (int)$serviceRow->serviceModerator);
+
       }
 
       /**
@@ -312,27 +462,37 @@
        */
       private function getServiceRowByEventTimestamp($eventTimestamp) {
 
-        $serviceSearch = new \BB\custom\extension\efgettenheim\lib\search\eventSearch($eventTimestamp);
-        $serviceFactory = \BB\custom\extension\efgettenheim\access\factory\service::get();
-        $results = $serviceFactory->searchRows($serviceSearch, true);
-        $serviceRow = current($results);
+        if(!empty($this->serviceRowsByEventTimestamp[$eventTimestamp])):
 
-        if(empty($serviceRow)):
-          $serviceRow = $serviceFactory->getRow(0);
-          $serviceRow->serviceDate = $eventTimestamp;
-          $serviceRow->serviceLabel = strftime('%A, den %d.%m.%Y', $eventTimestamp);
-          $serviceRow->serviceAdditionalInfo = '';
-          $serviceRow->serviceSermonTopic = '';
-          $serviceRow->serviceSermonRecording = '';
-          $serviceRow->serviceModerator = 0;
-          $serviceRow->servicePreacher = 0;
-          $serviceRow->staffWorshipLeader = 0;
-          $serviceRow->serviceSundaySchoolTeacherSmall = 0;
-          $serviceRow->serviceSundaySchoolTeacherBig = 0;
-          $serviceRow->serviceAudioEngineer = 0;
-          $serviceRow->serviceReceptionist = 0;
-          $serviceRow->serviceWorshipMusicians = '';
-          $serviceRow->save();
+          $serviceRow = $this->serviceRowsByEventTimestamp[$eventTimestamp];
+
+        else:
+
+          $serviceSearch = new \BB\custom\extension\efgettenheim\lib\search\eventSearch($eventTimestamp);
+          $serviceFactory = \BB\custom\extension\efgettenheim\access\factory\service::get();
+          $results = $serviceFactory->searchRows($serviceSearch, true);
+          $serviceRow = current($results);
+
+          if(empty($serviceRow)):
+            $serviceRow = $serviceFactory->getRow(0);
+            $serviceRow->serviceDate = $eventTimestamp;
+            $serviceRow->serviceLabel = strftime('%A, den %d.%m.%Y', $eventTimestamp);
+            $serviceRow->serviceAdditionalInfo = '';
+            $serviceRow->serviceSermonTopic = '';
+            $serviceRow->serviceSermonRecording = '';
+            $serviceRow->serviceModerator = 0;
+            $serviceRow->servicePreacher = 0;
+            $serviceRow->staffWorshipLeader = 0;
+            $serviceRow->serviceSundaySchoolTeacherSmall = 0;
+            $serviceRow->serviceSundaySchoolTeacherBig = 0;
+            $serviceRow->serviceAudioEngineer = 0;
+            $serviceRow->serviceReceptionist = 0;
+            $serviceRow->serviceWorshipMusicians = '';
+            $serviceRow->save();
+          endif;
+
+          $this->serviceRowsByEventTimestamp[$eventTimestamp] = $serviceRow;
+
         endif;
 
         return $serviceRow;
@@ -364,11 +524,16 @@
         $agendaJSON = $bbRequest->getString('agenda');
         $agenda = json_decode($agendaJSON);
 
+        $serviceRow = $this->getServiceRowByEventID($eventID);
+        $this->checkEditRights($editMode, $serviceRow->serviceDate);
+
+        if($serviceRow->serviceDate < time()):
+          die('Die Veranstaltung liegt in der Vergangenheit und kann nicht mehr bearbeitet werden.');
+        endif;
+
         if($sendInfo):
           $this->sendInfoMail($editMode);
         endif;
-
-        $serviceRow = $this->getServiceRowByEventID($eventID);
 
         if($editMode == 'songs'):
           $serviceSongBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
