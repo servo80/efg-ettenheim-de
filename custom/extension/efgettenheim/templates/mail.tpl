@@ -1,13 +1,8 @@
----------------------------------------------------------------
-Anmeldung zu {echo $eventData->Veranstaltungsart;} {echo $eventData->Veranstaltungstitel;} am {echo strftime('%A, %d. %B %Y', $eventData->Veranstaltungsstartdatum);}
----------------------------------------------------------------
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Anmeldung zu {echo $eventData->Veranstaltungsart;} {echo $eventData->Veranstaltungstitel;} am {echo strftime('%A, %d. %B %Y', $eventData->Veranstaltungsstartdatum);}</title>
+    <title>EFG Ettenheim - Gottesdienstplanung</title>
     <style type="text/css">
       body {
         padding-top: 0 !important;
@@ -110,7 +105,9 @@ Anmeldung zu {echo $eventData->Veranstaltungsart;} {echo $eventData->Veranstaltu
                             <td valign='top' align='center'>
                               <div class="contentEditableContainer contentTextEditable">
                                 <div class="contentEditable">
-                                  <p style='text-align:center;margin:0;font-family:Georgia,Time,sans-serif;font-size:26px;line-height:34px;color:#222222;'>Anmeldung zu {echo $eventData->Veranstaltungsart;} {echo $eventData->Veranstaltungstitel;} am {echo strftime('%A, %d. %B %Y', $eventData->Veranstaltungsstartdatum);}</p>
+                                  <p style='text-align:center;margin:0;font-family:Georgia,Time,sans-serif;font-size:26px;line-height:34px;color:#222222;'>
+                                    Gottesdienstplanung
+                                  </p>
                                 </div>
                               </div>
                             </td>
@@ -124,7 +121,7 @@ Anmeldung zu {echo $eventData->Veranstaltungsart;} {echo $eventData->Veranstaltu
                             <td valign='top' align='center'>
                               <div class="contentEditableContainer contentImageEditable">
                                 <div class="contentEditable">
-                                  <img src="cid:logo.png" width='182' height='119' alt='' data-default="placeholder" data-max-width="560">
+                                  <img src="cid:logo.png" width='300' height='120' alt='' data-default="placeholder" data-max-width="560">
                                 </div>
                               </div>
                             </td>
@@ -139,7 +136,7 @@ Anmeldung zu {echo $eventData->Veranstaltungsart;} {echo $eventData->Veranstaltu
                             <td align='left'>
                               <div class="contentEditableContainer contentTextEditable">
                                 <div class="contentEditable" align='center'>
-                                  <h2>Vielen Dank für Ihre Anmeldung.</h2>
+                                  <h2>Information</h2>
                                 </div>
                               </div>
                             </td>
@@ -153,67 +150,80 @@ Anmeldung zu {echo $eventData->Veranstaltungsart;} {echo $eventData->Veranstaltu
                                 <div class="contentEditable" align='center'>
                                   <p >
 
-                                    Personendaten:<br /><br />
+                                    F&uuml;r den Gottesdienst am {$serviceRow->serviceLabel}
 
-                                    {$salutation_label}: {$salutation}<br />
-                                    {$firstname_label}: {$firstname}<br />
-                                    {$lastname_label}: {$lastname}<br />
-                                    {$birthdate_label}: {$birthdate}<br />
-                                    {$street_label}: {$street}<br />
-                                    {$city_label}: {$city}<br />
-                                    {$fon_label}: {$fon}<br />
-                                    {$email_label}: {$email}<br />
-                                    {$salutation_partner_label}: {$salutation_partner}<br />
-                                    {$firstname_partner_label}: {$firstname_partner}<br />
-                                    {$lastname_partner_label}: {$lastname_partner}<br />
-                                    {$birthdate_partner_label}: {$birthdate_partner}<br />
-                                    {$weddingdate_label}: {$weddingdate}<br />
-                                    {$engagementdate_label}: {$engagementdate}<br /><br />
+                                    {if($type == 'moderator_missing'):}
 
-                                    {if($eventData->Veranstaltungsart == 'Ehe-Intensiv'):}
-                                    Zimmerbuchung:<br /><br />
+                                    wurde noch kein Moderator hinterlegt. Bitte hinterlegen Sie den zust&auml;ndigen Moderator zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
 
-                                    {if($room == 1):}
-                                    Doppelzimmer Variante 1<br />mit Waschbecken auf dem Zimmer (Dusche/WC auf der Etage)<br /><br />
-                                    {else:}
-                                    Doppelzimmer Variante 2<br />mit Waschbecken, Dusche, WC<br />auf dem Zimmer<br /><br />
+                                    <br /><br />
+                                    <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um den Moderator zu hinterlegen.</a>
+
+                                    <br /><br />
+                                    Der Link funktioniert nur im eingeloggten Zustand.
+
+                                    {elseif($type == 'worship_leader_missing'):}
+
+                                    wurde noch kein Lobpreisleiter hinterlegt. Bitte hinterlegen Sie den zust&auml;ndigen Moderator zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
+
+                                    <br /><br />
+                                    <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um den Lobpreisleiter zu hinterlegen.</a>
+
+                                    <br /><br />
+                                    Der Link funktioniert nur im eingeloggten Zustand.
+
+                                    {elseif($type == 'sermon_topic_missing'):}
+
+                                    wurde noch kein Predigtthema hinterlegt. Bitte hinterlegen Sie die Information zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
+
+                                    <br /><br />
+                                    <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}&mode=sermonTopic" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um das Predigtthema zu hinterlegen.</a>
+
+                                    <br /><br />
+                                    Der Link funktioniert nur im eingeloggten Zustand.
+
+                                    {elseif($type == 'songs_missing'):}
+
+                                    wurde nun das Predigtthema hinterlegt:
+
+                                    {$serviceRow->serviceSermonTopic}
+
+                                    Bitte w&auml;hlen Sie nun die Lieder aus.
+
+                                    <br /><br />
+                                    <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}&mode=songs" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um die Lieder zu hinterlegen.</a>
+
+                                    <br /><br />
+                                    Der Link funktioniert nur im eingeloggten Zustand.
+
+                                    {elseif($type == 'agenda_missing'):}
+
+                                    wurden nun die Lieder ausgew&auml;hlt. Der Ablauf kann nun fertiggestellt werden.
+
+                                    <br /><br />
+                                    <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}&mode=agenda" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um den Ablauf fertigzustellen.</a>
+
+                                    <br /><br />
+                                    Der Link funktioniert nur im eingeloggten Zustand.
+
+                                    {elseif($type == 'agenda_final'):}
+
+                                    wurde die Planung nun abgeschlossen. Sie finden den Ablauf im Anhang dieser Mail.
+
                                     {endif;}
 
-                                    {endif;}
-
-                                    {$remarks_label}:<br /><br />
-
-                                    {$remarks}<br />
                                   </p>
                                 </div>
                               </div>
                             </td>
                           </tr>
 
-                          <tr><td height='55'></td></tr>
-
-                          <tr>
-                            <td align='center'>
-                              <table>
-                                <tr>
-                                  <td align='center' bgcolor='#1A54BA' style='background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;'>
-                                    <div class="contentEditableContainer contentTextEditable">
-                                      <div class="contentEditable" align='center'>
-                                        <a target='_blank' href='http://www.ehe-initiative.de' class='link2' style='color:#ffffff;'>Zur Homepage</a>
-                                      </div>
-                                    </div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
                           <tr><td height='20'></td></tr>
                         </table>
                       </div>
 
                       <div class='movableContent'>
                         <table width="520" border="0" cellspacing="0" cellpadding="0" align="center">
-                          <tr><td height='65'></td></tr>
                           <tr><td  style='border-bottom:1px solid #DDDDDD;'></td></tr>
 
                           <tr><td height='25'></td></tr>
@@ -226,11 +236,7 @@ Anmeldung zu {echo $eventData->Veranstaltungsart;} {echo $eventData->Veranstaltu
                                     <div class="contentEditableContainer contentTextEditable">
                                       <div class="contentEditable" align='center'>
                                         <p  style='text-align:left;color:#CCCCCC;font-size:12px;font-weight:normal;line-height:20px;'>
-                                          <span style='font-weight:bold;'>Ehe-Initiative e.V.</span>
-                                          <br>
-                                          Büro: Friedrich & Heidi Erhardt<br />
-                                          Im Gässle 5<br />
-                                          79312 Emmendingen<br />
+                                          <span style='font-weight:bold;'>&copy; Evangelisch-Freikirchliche Gemeinde Ettenheim, Stückle-Straße 2, 77955 Ettenheim</span>
                                           <br>
                                         </p>
                                       </div>

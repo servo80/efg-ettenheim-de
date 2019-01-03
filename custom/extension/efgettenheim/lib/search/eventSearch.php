@@ -64,6 +64,7 @@
 
         $fieldset->add($fieldFrom);
         $fieldset->add($fieldTo);
+        $fieldset->add(new \BB\access\conditionAnd());
 
         return $fieldset;
 

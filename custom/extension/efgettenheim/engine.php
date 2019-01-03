@@ -2,12 +2,12 @@
 
   // TODO
   // Lieder suchen, erfassen, bearbeiten
-  // Cron mit Infomails implementieren
   // besondere Veranstaltungen
   // Benutzer und Passwort-Felder vereinheitlichen
 
 
   // DONE
+  // Cron mit Infomails implementieren
   // Rechte implementieren
   //  - Bearbeitungszeitpunkte (nach Godi nicht mehr änderbar
   //  - Links in Kalender

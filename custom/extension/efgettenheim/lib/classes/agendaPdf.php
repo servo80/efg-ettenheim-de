@@ -158,6 +158,15 @@
       }
 
       /**
+       *
+       */
+      public function save() {
+        $filename = 'share/public/Ablauf/'.\BB\file::sanitize($this->serviceRow->serviceLabel).'.pdf';
+        $this->pdf->Output('F', APP_ROOT.$filename);
+        return $filename;
+      }
+
+      /**
        * @param int $staffID
        * @return string
        */
