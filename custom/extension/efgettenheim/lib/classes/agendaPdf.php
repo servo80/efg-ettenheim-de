@@ -141,7 +141,7 @@
         foreach($this->agendaRows as $agendaRow):
           $this->buildRow(
             utf8_decode($agendaRow->agendaResponsible),
-            utf8_decode("\r\n".$agendaRow->agendaRemarks."\r\n\r\n")
+            utf8_decode($agendaRow->agendaTitle."\r\n".$agendaRow->agendaRemarks."\r\n\r\n")
           );
         endforeach;
 

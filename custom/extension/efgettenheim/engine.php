@@ -39,7 +39,7 @@
 
         $startTimestamp = time();
         $dayAsTimestamp = 24*60*60;
-        $endTimestamp = $startTimestamp + 30*$dayAsTimestamp;
+        $endTimestamp = $startTimestamp + 365*$dayAsTimestamp;
         $calendarEvents = [];
         for($currentTimestamp = $startTimestamp; $currentTimestamp <= $endTimestamp; $currentTimestamp += $dayAsTimestamp):
           $currentWeekDay = strftime('%w', $currentTimestamp);
