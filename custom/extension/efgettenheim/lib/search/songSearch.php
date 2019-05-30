@@ -17,6 +17,7 @@
       public function __construct($searchTerm) {
 
         $this->searchTerm = $searchTerm;
+        $this->limit = 1000;
 
       }
 
@@ -25,7 +26,7 @@
        */
       public function build() {
 
-        $conditionTimestamp = $this->getConditionTimestamp();
+        $conditionTimestamp = $this->getConditionSongTitle();
         $this->add($conditionTimestamp);
         $this->add(new \BB\access\conditionAnd());
 
@@ -34,12 +35,13 @@
       /**
        * @return \BB\access\conditionField
        */
-      private function getConditionTimestamp() {
+      private function getConditionSongTitle() {
 
         $field = new \BB\access\conditionField();
         $field
           ->id(\BB\custom\extension\efgettenheim\access\field\de\songTitle::class)
-          ->like('%'.$this->searchTerm.'%');
+          ->like('%'.$this->searchTerm.'%')
+          ->sortAsc();
 
         return $field;
 

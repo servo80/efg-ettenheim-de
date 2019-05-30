@@ -10,6 +10,8 @@
     <field name="Seite: Kalender" key="pageCalendar" type="page_id" length="int" width="300" height="1" />
   </object>
 
+  <object name="Liederlist" id="songs" view="songs" engine="extension" stage="0" locations="1" />
+
   <object name="Predigtarchiv" id="sermons" view="sermons" engine="extension" stage="0" locations="1" />
 
 </objects>

@@ -131,12 +131,11 @@
       }
 
       /**
-       *
+       * @param $searchTerm
+       * @param bool $json
+       * @return array
        */
-      private function searchSong() {
-
-        $bbRequest = \BB\request\http::get();
-        $searchTerm = $bbRequest->getString('q');
+      private function searchSong($searchTerm, $json = true) {
 
         $songBooksIDsAsNames = $this->getSongBookIDsAsNames();
 
@@ -149,6 +148,8 @@
           $resultItem = new \stdClass();
           $resultItem->id = $searchResult->getContentID();
           $resultItem->text = $searchResult->songTitle.' ('.$songBooksIDsAsNames[$searchResult->songBook].', '.$searchResult->songNumber.')';
+          $resultItem->title = $searchResult->songTitle;
+          $resultItem->book = (int)$searchResult->songNumber > 0 ? $songBooksIDsAsNames[$searchResult->songBook].', '.$searchResult->songNumber : '';
           $results[] = $resultItem;
         endforeach;
 
@@ -156,7 +157,11 @@
           'results' => $results
         ];
 
-        $this->json($response);
+        if($json):
+          $this->json($response);
+        else:
+          return $results;
+        endif;
 
       }
 
@@ -164,7 +169,7 @@
        * @return array
        */
       private function getSongBookIDsAsNames() {
-        $songBookSearch = new \BB\custom\extension\efgettenheim\lib\search\songBookSearch($searchTerm);
+        $songBookSearch = new \BB\custom\extension\efgettenheim\lib\search\songBookSearch('');
         $songBookFactory = \BB\custom\extension\efgettenheim\access\factory\songBook::get();
         $songBookRows = $songBookFactory->searchRows($songBookSearch, true);
 
@@ -179,6 +184,32 @@
       /**
        *
        */
+      public function viewSongs() {
+
+        $songs = $this->searchSong('', false);
+        $songBookBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
+
+        foreach($songs as $song):
+          $services = $songBookBridge->getParents($song->id);
+          foreach($services as $service):
+            $song->dates[] = $service->serviceDate;
+          endforeach;
+          sort($song->dates);
+          foreach($song->dates as $dateIndex => $date):
+            $song->dates[$dateIndex] = strftime('%d.%m.%y', $date);
+          endforeach;
+          if(count($song->dates) > 0):
+            $validSongs[] = $song;
+          endif;
+        endforeach;
+
+        $this->view->add('songs', $validSongs);
+
+      }
+
+      /**
+       *
+       */
       public function viewEditEvent(){
 
         $bbRequest = \BB\request\http::get();
@@ -187,7 +218,8 @@
         $searchSong = $bbRequest->getBoolean('searchSong');
 
         if($searchSong):
-          $this->searchSong();
+          $searchTerm = $bbRequest->getString('q');
+          $this->searchSong($searchTerm);
         endif;
 
         $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);

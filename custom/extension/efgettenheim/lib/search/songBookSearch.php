@@ -17,6 +17,7 @@
       public function __construct($searchTerm) {
 
         $this->searchTerm = $searchTerm;
+        $this->limit = 1000;
 
       }
 
