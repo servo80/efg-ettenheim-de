@@ -659,7 +659,11 @@
             $serviceRow->serviceAudioEngineer = 0;
             $serviceRow->serviceReceptionist = 0;
             $serviceRow->serviceWorshipMusicians = '';
+            try {
             $serviceRow->save();
+            } catch(\Exception $e) {
+              $e->getMessage();
+            }
           endif;
 
           $this->serviceRowsByEventTimestamp[$eventTimestamp] = $serviceRow;
