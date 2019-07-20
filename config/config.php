@@ -1,5 +1,5 @@
 <?php
-  
+
   /*
    * call by Brandbox
    */
@@ -11,7 +11,7 @@
   /*
    * Config:License
    */
-  \BB\config::set('license', '09999-00000-01');  
+  \BB\config::set('license', '09999-00000-01');
 
   /*
    * Config:Debug
@@ -27,12 +27,12 @@
   \BB\config::set('debug:file', true);
   \BB\config::set('debug:ftp', false);
   \BB\config::set('debug:out', 'chrome'); // chrome|firefox|plain|html|mail|none
-  \BB\config::set('log:level', 'DEBUG'); // chrome|firefox|plain|html|mail|none
+  \BB\config::set('log:level', 'debug'); // chrome|firefox|plain|html|mail|none
 
   /*
    * Config:MySQL
    */
-  \BB\config::set('db:name', 'efg-ettenheim-4');
+  \BB\config::set('db:name', 'efg-ettenheim');
   \BB\config::set('db:host', 'localhost');
   \BB\config::set('db:user', 'root');
   \BB\config::set('db:password', 'root');
@@ -46,7 +46,7 @@
   \BB\config::set('path:protocol', $_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http', 'app');
   \BB\config::set('path:directory', '/efg-ettenheim-de-4/', 'app');
   \BB\config::set('path:http', 'http://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-4/', 'app');
-  \BB\config::set('path:https', 'https://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-4/', 'app');
+  \BB\config::set('path:https', 'http://'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-4/', 'app');
   \BB\config::set('path:none', '//'.$_SERVER['SERVER_NAME'].'/efg-ettenheim-de-4/', 'app');
 
   \BB\config::set('path:php', '/usr/bin/');
@@ -64,25 +64,24 @@
    * Config:Mail
    */
   //\BB\config::set('mail:debug:recipient', 'frick@konmedia.com');
-  \BB\config::set('mail:address', 'info@konmedia.com', 'app');
-  \BB\config::set('mail:name', 'Brandbox', 'app');
-  \BB\config::set('mail:smtp:host', 'ehe-initiative.de');
-  \BB\config::set('mail:smtp:port', 587);
-  \BB\config::set('mail:smtp:username', 'info@ehe-initiative.de');
-  \BB\config::set('mail:smtp:password', 'HrU{bUZ3');
-  \BB\config::set('mail:smtp:smtpauth', true);
+  \BB\config::set('mail:address', 'philippfrick@arcor.de', 'app');
+  \BB\config::set('mail:name', 'EFG Ettenheim', 'app');
+  \BB\config::set('mail:smtp:host', 'mail.arcor.de');
+  \BB\config::set('mail:smtp:port', 465);
+  \BB\config::set('mail:smtp:username', 'philippfrick@arcor.de');
+  \BB\config::set('mail:smtp:password', '20649093');
+  \BB\config::set('mail:smtp:auth', true);
+  \BB\config::set('mail:smtp:secure', 'ssl');
 
-  \BB\config::set('mail:newsletter:pageID', 24);
-  \BB\config::set('mail:newsletter:testAddress', 'info@ehe-initiative.de');
 
   /*
    * Config:Solr
    */
-   /*
+  /*
   \BB\config::set('solr:host', 'localhost');
   \BB\config::set('solr:port', '8983');
   \BB\config::set('solr:path', '/solr');
-   */
+  */
 
   /*
    * Config:Settings
@@ -98,7 +97,7 @@
   #\BB\config::set('settings:session:exec', array('Test'));
   \BB\config::set('settings:salutation:format', '%2$s');
   \BB\config::set('settings:pdf:unloadimages', 'document');
-  \BB\config::set('settings:pdf:defaultcmyk', 'USWebCoatedSWOP.icc'); //  
+  \BB\config::set('settings:pdf:defaultcmyk', 'USWebCoatedSWOP.icc'); //
 
   // http://www.imagemagick.org/script/command-line-options.php#limit
   \BB\config::set('settings:magick:limit:memory', '500MiB');
@@ -130,8 +129,8 @@
   date_default_timezone_set('UTC');
 
   #putenv("MAGICK_THREAD_LIMIT=1");
-	#putenv("OMP_NUM_THREADS=1");
-  
+  #putenv("OMP_NUM_THREADS=1");
+
   ini_set('display_errors', 1);
   error_reporting(E_ERROR);
 

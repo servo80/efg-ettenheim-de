@@ -10,7 +10,13 @@
     <field name="Seite: Kalender" key="pageCalendar" type="page_id" length="int" width="300" height="1" />
   </object>
 
-  <object name="Liederlist" id="songs" view="songs" engine="extension" stage="0" locations="1" />
+  <object name="Liederliste" id="songs" view="songs" engine="extension" stage="0" locations="1">
+    <field name="Seite: Lied bearbeiten" key="pageEditSong" type="page_id" length="int" width="300" height="1" />
+  </object>
+
+  <object name="Lied bearbeiten" id="editSong" view="editSong" engine="extension" stage="0" locations="1">
+    <field name="Seite: Liederliste" key="pageListSongs" type="page_id" length="int" width="300" height="1" />
+  </object>
 
   <object name="Predigtarchiv" id="sermons" view="sermons" engine="extension" stage="0" locations="1" />
 

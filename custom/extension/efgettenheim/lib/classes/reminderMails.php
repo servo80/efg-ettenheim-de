@@ -13,9 +13,17 @@
        */
       public function sendReminders() {
 
+        $oneDay = 24*60*60;
+        $twoDays = 2*$oneDay;
+        $threeDays = 3*$oneDay;
+        $fourDays = 4*$oneDay;
+        $sixDays = 6*$oneDay;
+        $hoursBuffer = 3*60*60;
+
         // Alle Events holen, die in den nächsten 6 Tagen stattfinden
         $currentTimestamp = time();
-        $triggerTimestamp = $currentTimestamp + 6*24*60*60;
+        $currentTimestamp = 1563184800+$fourDays;
+        $triggerTimestamp = $currentTimestamp + $sixDays;
         $fromTimestamp = mktime(0, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
         $toTimestamp = mktime(23, 59, 0, strftime('%m', $triggerTimestamp), strftime('%d', $triggerTimestamp), strftime('%Y', $triggerTimestamp));
 
@@ -45,21 +53,32 @@
 
           // wenn Predigtthema fehlt, Moderator benachrichtigen
           elseif(empty($serviceRow->serviceSermonTopic)):
-            $receivers = [$this->getStaffEmail($serviceRow->serviceModerator)];
-            $this->sendMail($receivers, 'sermon_topic_missing', $serviceRow);
-            continue;
 
+            // ab 4 Tage vorher benachrichtigen
+            if($currentTimestamp > $serviceRow->serviceDate - $fourDays - $hoursBuffer):
+              $receivers = [$this->getStaffEmail($serviceRow->serviceModerator)];
+              $this->sendMail($receivers, 'sermon_topic_missing', $serviceRow);
+            endif;
+            continue;
 
           // wenn Lieder fehlen, Lobpreisleiter mit Predigtthema benachrichtigen
           elseif(count($songs) === 0):
-            $receivers = [$this->getStaffEmail($serviceRow->serviceWorshipLeader)];
-            $this->sendMail($receivers, 'songs_missing', $serviceRow);
+
+            // ab 3 Tage vorher benachrichtigen
+            if($currentTimestamp > $serviceRow->serviceDate - $threeDays - $hoursBuffer):
+              $receivers = [$this->getStaffEmail($serviceRow->serviceWorshipLeader)];
+              $this->sendMail($receivers, 'songs_missing', $serviceRow);
+            endif;
             continue;
 
           // wenn Ablauf fehlt, Moderator benachrichtigen
           elseif(count($agenda) === 0):
-            $receivers = [$this->getStaffEmail($serviceRow->serviceModerator)];
-            $this->sendMail($receivers, 'agenda_missing', $serviceRow);
+
+            // ab 2 Tage vorher benachrichtigen
+            if($currentTimestamp > $serviceRow->serviceDate - $twoDays - $hoursBuffer):
+              $receivers = [$this->getStaffEmail($serviceRow->serviceModerator)];
+              $this->sendMail($receivers, 'agenda_missing', $serviceRow);
+            endif;
             continue;
 
           // wenn Ablauf vorhanden, Ablauf an alle schicken (Musikteam, Prediger)
@@ -166,8 +185,9 @@
        * @param \BB\custom\extension\efgettenheim\access\object\service $serviceRow
        * @return bool
        */
-      protected function sendMail($receivers, $type, $serviceRow, $urgent = false, $attachment = '') {
-
+      public function sendMail($receivers, $type, $serviceRow, $urgent = false, $attachment = '') {
+        print_r($receivers);
+$receivers = ['philipp.frick@googlemail.com'];
         $mailTpl = new \BB\template\classic('custom/extension/efgettenheim/templates/mail.tpl');
         $mailTpl->add('serviceRow', $serviceRow);
         $mailTpl->add('type', $type);

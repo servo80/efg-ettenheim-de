@@ -45,15 +45,20 @@ jQuery(document).ready(function() {
   // SELECT2 FOR WORKSHOP MUSICIANS
   jQuery('#serviceWorshipMusicians').select2({});
 
+  jQuery('#songDateFrom').datepicker({
+    onSelect: function(dateText, inst) { jQuery('#filterSongs').submit(); }
+  });
+  jQuery('#songDateTo').datepicker({
+    onSelect: function(dateText, inst) { jQuery('#filterSongs').submit(); }
+  });
 
   // AGENDA
 
   jQuery('#agendaBlocks div').click(function() {
     var songID = jQuery(this).attr('data-song-id');
     var responsibleStaff = jQuery(this).attr('data-responsible');
-    var remarks = jQuery(this).attr('data-remarks');
     jQuery('#agendaSortable').append(
-      '<div style="cursor:pointer;" class="alert alert-success" data-id="new" data-remarks="'+remarks+'" data-responsible="'+responsibleStaff+'" data-song-id="'+songID+'">'+
+      '<div style="cursor:pointer;" class="alert alert-success" data-id="new" data-remarks="" data-responsible="'+responsibleStaff+'" data-song-id="'+songID+'">'+
       '<span>'+jQuery(this).html()+'</span>'+
       '<a onclick="jQuery(this).parent().remove();"><i class="fa fa-trash-o" style="float:right;"></i></a>'+
       '<a onclick="jQuery(this).parent().editAgenda();"><i class="fa fa-pencil-square" style="float:right;margin-right:10px;"></i></a>'+

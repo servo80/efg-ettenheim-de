@@ -154,7 +154,7 @@
 
                                     {if($type == 'moderator_missing'):}
 
-                                    wurde noch kein Moderator hinterlegt. Bitte hinterlegen Sie den zust&auml;ndigen Moderator zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
+                                    wurde noch kein Moderator hinterlegt. Bitte hinterlege den zust&auml;ndigen Moderator zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
 
                                     <br /><br />
                                     <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um den Moderator zu hinterlegen.</a>
@@ -164,7 +164,7 @@
 
                                     {elseif($type == 'worship_leader_missing'):}
 
-                                    wurde noch kein Lobpreisleiter hinterlegt. Bitte hinterlegen Sie den zust&auml;ndigen Moderator zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
+                                    wurde noch kein Lobpreisleiter hinterlegt. Bitte hinterlege den zust&auml;ndigen Moderator zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
 
                                     <br /><br />
                                     <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um den Lobpreisleiter zu hinterlegen.</a>
@@ -174,7 +174,7 @@
 
                                     {elseif($type == 'sermon_topic_missing'):}
 
-                                    wurde noch kein Predigtthema hinterlegt. Bitte hinterlegen Sie die Information zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
+                                    wurde noch kein Predigtthema hinterlegt. Bitte hinterlege die Information zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
 
                                     <br /><br />
                                     <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}&mode=sermonTopic" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um das Predigtthema zu hinterlegen.</a>
@@ -184,7 +184,7 @@
 
                                     {elseif($type == 'songs_missing'):}
 
-                                    wurde nun das Predigtthema hinterlegt:
+                                    wurde das Predigtthema hinterlegt:
 
                                     {$serviceRow->serviceSermonTopic}
 
@@ -208,7 +208,7 @@
 
                                     {elseif($type == 'agenda_final'):}
 
-                                    wurde die Planung nun abgeschlossen. Sie finden den Ablauf im Anhang dieser Mail.
+                                    wurde die Planung nun abgeschlossen. Du findest den Ablauf im Anhang dieser Mail.
 
                                     {endif;}
 

@@ -5,19 +5,6 @@
   // besondere Veranstaltungen
   // Benutzer und Passwort-Felder vereinheitlichen
 
-
-  // DONE
-  // Cron mit Infomails implementieren
-  // Rechte implementieren
-  //  - Bearbeitungszeitpunkte (nach Godi nicht mehr änderbar
-  //  - Links in Kalender
-  //  - Rechteprüfungen beim Öffnen und Speichern
-  // Ablauf
-  //  - PDF-Erstellung
-  //  - Frontend mit sortable
-  // Login-Bereich
-
-
   namespace BB\custom\extension\efgettenheim {
 
     if(@secure !== true)
@@ -30,6 +17,7 @@
 
       protected $error = false;
       protected $sent = false;
+      protected $successMessage = '';
       protected $captchaSuccess = false;
 
       /**
@@ -184,12 +172,118 @@
       /**
        *
        */
+      public function execSaveSong() {
+
+        $bbRequest = \BB\request\http::get();
+        $songID = $bbRequest->getInteger('songID');
+        $songTitle = $bbRequest->getString('songTitle');
+        $songNumber = $bbRequest->getString('songNumber');
+        $songBook = $bbRequest->getInteger('songBook');
+
+        $songFactory = \BB\custom\extension\efgettenheim\access\factory\song::get();
+        $songRow = $songFactory->getRow($songID);
+
+        $songRow->songTitle = $songTitle;
+        $songRow->songNumber = $songNumber;
+        $songRow->songBook = $songBook;
+        $songRow->save();
+
+        if($songID != $songRow->getContentID()):
+          header('Location:'. $this->getLink($this->page_id, true).'?songID='.$songRow->getContentID());
+        endif;
+      }
+
+      /**
+       *
+       */
+      public function viewEditSong() {
+
+        $bbRequest = \BB\request\http::get();
+        $songID = $bbRequest->getInteger('songID');
+
+        $songFactory = \BB\custom\extension\efgettenheim\access\factory\song::get();
+        $songRow = $songFactory->getRow($songID);
+
+        $songBooksIDsAsNames = $this->getSongBookIDsAsNames();
+        $this->view
+          ->assign('songID', $songRow->getContentID())
+          ->assign('songTitle', $songRow->songTitle)
+          ->assign('songNumber', $songRow->songNumber)
+          ->assign('buttonText', $songRow->getContentID() > 0 ? 'Speichern' : 'Anlegen')
+          ->assign('songsListPage', $this->getLink($this->values['pageListSongs']['cnv_value'], true))
+          ->add('songBook', $songRow->songBook)
+          ->add('songBooks', $songBooksIDsAsNames)
+          ;
+
+      }
+
+      /**
+       *
+       */
       public function viewSongs() {
 
-        $songs = $this->searchSong('', false);
-        $songBookBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
+        $bbRequest = \BB\request\http::get();
+        $songTitle = $bbRequest->getString('songTitle');
+        $songNumber = $bbRequest->getString('songNumber');
+        $songDateFrom = $bbRequest->getString('songDateFrom');
+        $songDateTo = $bbRequest->getString('songDateTo');
+        $songSung = $bbRequest->getInteger('songSung');
+        $songBook = $bbRequest->getInteger('songBook');
+        $songWorshipLeader = $bbRequest->getString('songWorshipLeader');
 
-        foreach($songs as $song):
+        if(!empty($songDateFrom)):
+          $songDateFromTimestamp = \DateTime::createFromFormat('d.m.Y', $songDateFrom)->getTimestamp();
+        else:
+          $songDateFromTimestamp = 0;
+        endif;
+
+        if(!empty($songDateTo)):
+          $songDateToTimestamp = \DateTime::createFromFormat('d.m.Y', $songDateTo)->getTimestamp();
+        else:
+          $songDateToTimestamp = 0;
+        endif;
+
+        $worshipLeaders = $this->getWorshipLeaders();
+        $songBooksIDsAsNames = $this->getSongBookIDsAsNames();
+
+        $sql =
+          ' SELECT DISTINCT(song.cnv_id) as songID'.
+          ' FROM brandbox_base_contents_values_15 as song'.
+          ' LEFT JOIN brandbox_base_contents_relations'.
+          '   ON cr_child_cn_id = song.cnv_id'.
+          '   AND cr_child_tbl_id = 15'.
+          '   AND cr_parent_tbl_id = 12'.
+          ' LEFT JOIN brandbox_base_contents_values_12 as service'.
+          '   ON service.cnv_id = cr_parent_cn_id'.
+          '   AND service.cnv_lan_id = 1'.
+          ' WHERE song.cnv_lan_id = 1'.
+          ($songTitle != '' ? ' AND song.cnv_101 LIKE "%'.$songTitle.'%"' : '').
+          ($songBook != 0 ? ' AND song.cnv_102 = '.$songBook : '').
+          ($songNumber != '' ? ' AND song.cnv_103 = '.$songNumber : '').
+          ($songWorshipLeader != 0 ? ' AND service.cnv_76 = '.$songWorshipLeader : '').
+          ($songSung == 1 ? ' AND service.cnv_id IS NOT NULL' : '').
+          ($songDateFromTimestamp > 0 ? ' AND service.cnv_69 >= '.$songDateFromTimestamp : '').
+          ($songDateToTimestamp > 0 ? ' AND service.cnv_69 <= '.$songDateToTimestamp : '').
+          ' ORDER BY song.cnv_101 ASC'
+          ;
+
+        $songs = \BB\db::get()->rows($sql, null, 'songID');
+
+        //$songs = $this->searchSong('', false);
+        $songBookBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
+        $songFactory = \BB\custom\extension\efgettenheim\access\factory\song::get();
+
+        $order = 1;
+        foreach($songs as $songID):
+          $songRow = $songFactory->getRow($songID);
+
+          $song = new \stdClass();
+          $song->id = $songRow->getContentID();
+          $song->text = $songRow->songTitle.' ('.$songBooksIDsAsNames[$songRow->songBook].', '.$songRow->songNumber.')';
+          $song->title = $songRow->songTitle;
+          $song->book = (int)$songRow->songNumber > 0 ? $songBooksIDsAsNames[$songRow->songBook].', '.$songRow->songNumber : '';
+          $song->order = $order;
+
           $services = $songBookBridge->getParents($song->id);
           foreach($services as $service):
             $song->dates[] = $service->serviceDate;
@@ -198,13 +292,57 @@
           foreach($song->dates as $dateIndex => $date):
             $song->dates[$dateIndex] = strftime('%d.%m.%y', $date);
           endforeach;
-          if(count($song->dates) > 0):
-            $validSongs[] = $song;
+
+          $validSongs[] = $song;
+          $order++;
+
+        endforeach;
+
+        $this->view
+          ->assign('songTitle', $songTitle)
+          ->assign('songNumber', $songNumber)
+          ->assign('songDateFrom', $songDateFrom)
+          ->assign('songDateTo', $songDateTo)
+          ->assign('songEditPage', $this->getLink($this->values['pageEditSong']['cnv_value'], true))
+          ->add('songs', $validSongs)
+          ->add('worshipLeaders', $worshipLeaders)
+          ->add('songBooks', $songBooksIDsAsNames)
+          ->add('songSung', $songSung)
+          ->add('songBook', $songBook)
+          ->add('songWorshipLeader', $songWorshipLeader)
+        ;
+
+      }
+
+      /**
+       * @return int[]
+       */
+      private function getWorshipLeaders() {
+
+        $staffSearch = new \BB\custom\extension\efgettenheim\lib\search\staffSearch(false, false, true);
+        $staffFactory = \BB\custom\extension\efgettenheim\access\factory\staff::get();
+        $staffIDs = $staffFactory->searchContentIDs($staffSearch);
+
+        return $this->getNamesByUserIDs($staffIDs);
+      }
+
+      /**
+       * @param array $userIDs
+       * @return array
+       */
+      private function getNamesByUserIDs($userIDs) {
+
+        $staffNames = [];
+        foreach($userIDs as $userID):
+          if(0 !== (int)$userID):
+            $staffName = $this->getStaffFullName($userID);
+            if(!empty($staffName)):
+              $staffNames[$userID] = $staffName;
+            endif;
           endif;
         endforeach;
 
-        $this->view->add('songs', $validSongs);
-
+        return $staffNames;
       }
 
       /**
@@ -262,6 +400,7 @@
         $this->view
           ->add('eventTimestamp', $eventTimestamp)
           ->add('editMode', $editMode)
+          ->add('successMessage', $this->successMessage)
           ->add('songs', $songs)
           ->add('agenda', $agenda)
           ->add('sermonTopic', $serviceRow->serviceSermonTopic)
@@ -294,7 +433,7 @@
             break;
 
           case 'songs':
-            if(!$this->isResponsiblePreacherOrModerator($eventTimestamp)):
+            if(!$this->isResponsibleWorshipLeader($eventTimestamp)):
               die('Sie haben nicht das Recht, die Lieder zu bearbeiten.');
             endif;
             break;
@@ -543,6 +682,18 @@
       }
 
       /**
+       * @param int $userID
+       * @return string
+       */
+      private function getStaffEmail($userID) {
+
+        $staffFactory = \BB\custom\extension\efgettenheim\access\factory\staff::get();
+        $staffRow = $staffFactory->getRow($userID);
+
+        return $staffRow->staffEmail;
+      }
+
+      /**
        *
        */
       public function execSaveEvent() {
@@ -564,7 +715,7 @@
         endif;
 
         if($sendInfo):
-          $this->sendInfoMail($editMode);
+          $this->sendInfoMail($editMode, $serviceRow);
         endif;
 
         if($editMode == 'songs'):
@@ -650,14 +801,25 @@
 
       /**
        * @param string $editMode
+       * @param access\object\service $serviceRow
        */
-      private function sendInfoMail($editMode) {
+      private function sendInfoMail($editMode, $serviceRow) {
 
+        switch($editMode):
+
+          case 'sermonTopic':
+
+            $receiver = $this->getStaffEmail($serviceRow->serviceWorshipLeader);
+            $reminderMails = new lib\classes\reminderMails();
+            $reminderMails->sendMail([$receiver], 'songs_missing', $serviceRow);
+            $this->successMessage = 'Die Mail wurde an '.$receiver.' versendet';
+
+            break;
+
+        endswitch;
 
 
       }
-
-
 
     }
 

@@ -3,6 +3,10 @@
     <div class="col-md-12">
       <h2>Gottesdienst am {echo strftime('%d.%m.%Y', $eventTimestamp);}</h2>
 
+      {if(!empty($successMessage)):}
+      <div class="alert alert-success">{$successMessage}</div>
+      {endif;}
+
       <form method="post" id="editEvent">
 
         <input type="hidden" name="eventID" value="{eventID}" />
@@ -138,11 +142,11 @@
               {foreach($songs as $song):}
               <div style="cursor:pointer;" class="alert alert-info" data-responsible="Musikteam" data-song-id="{$song->getContentID()}">Lied: {$song->songTitle}</div>
               {endforeach;}
-              <div style="cursor:pointer;" class="alert alert-info">Gebetsgemeinschaft</div>
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Gebetsgemeinschaft</div>
               <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$moderatorName}">Begrüßung</div>
               <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Segen</div>
-              <div style="cursor:pointer;" class="alert alert-info">Infoteil</div>
-              <div style="cursor:pointer;" class="alert alert-info">Kollekte</div>
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$moderatorName}">Infoteil</div>
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$moderatorName}">Kollekte</div>
             </div>
           </div>
         </div>

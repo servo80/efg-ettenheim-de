@@ -17,9 +17,10 @@
        * @param bool $moderatorManager
        * @param bool $worshipManager
        */
-      public function __construct($moderatorManager = true, $worshipManager = false) {
+      public function __construct($moderatorManager = true, $worshipManager = false, $worshipLeader = false) {
         $this->moderatorManager = $moderatorManager;
         $this->worshipManager = $worshipManager;
+        $this->worshipLeader = $worshipLeader;
       }
 
       /**
@@ -40,8 +41,10 @@
 
         if($this->moderatorManager):
           $fieldID = \BB\custom\extension\efgettenheim\access\field\de\staffRightModeratorManager::class;
-        else:
+        elseif($this->worshipManager):
           $fieldID = \BB\custom\extension\efgettenheim\access\field\de\staffRightWorshipManager::class;
+        else:
+          $fieldID = \BB\custom\extension\efgettenheim\access\field\de\staffRightWorshipLeader::class;
         endif;
 
         $field = new \BB\access\conditionField();

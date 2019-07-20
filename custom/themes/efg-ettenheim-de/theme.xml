@@ -10,8 +10,10 @@
       <file type="text/javascript" href="application/javascript/jquery.ui.widget.js" />
       <file type="text/javascript" href="application/javascript/jquery.ui.mouse.js" />
       <file type="text/javascript" href="application/javascript/jquery.ui.sortable.js" />
+      <file type="text/javascript" href="application/javascript/jquery.ui.datepicker.js" />
       <file type="text/css" href="application/javascript/css/jquery.fancybox.css" />
       <file type="text/css" href="application/javascript/select2/select2.css" />
+      <file type="text/css" href="application/javascript/css/jquery.ui.datepicker.css" />
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/bootstrap.min.js" />
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.isotope.min.js" />
       <file type="text/javascript" href="custom/themes/efg-ettenheim-de/js/jquery.prettyPhoto.js" />
