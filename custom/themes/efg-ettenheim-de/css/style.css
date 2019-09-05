@@ -1223,7 +1223,7 @@ vertical-align: -0.4em;
 content: "\201C";
 }
 blockquote p {
-display inline;
+display: inline;
 }
 blockquote span{
 font-family:"Open Sans", Arial;
