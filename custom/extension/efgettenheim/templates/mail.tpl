@@ -164,7 +164,7 @@
 
                                     {elseif($type == 'worship_leader_missing'):}
 
-                                    wurde noch kein Lobpreisleiter hinterlegt. Bitte hinterlege den zust&auml;ndigen Moderator zeitnah, um die rechtzeitige Abwicklung der Gottesdiesnstplanung zu gew&auml;hrleisten.
+                                    wurde noch kein Lobpreisleiter hinterlegt. Bitte hinterlege den zust&auml;ndigen Moderator zeitnah, um die rechtzeitige Abwicklung der Gottesdienstplanung zu gew&auml;hrleisten.
 
                                     <br /><br />
                                     <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um den Lobpreisleiter zu hinterlegen.</a>

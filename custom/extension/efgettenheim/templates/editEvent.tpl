@@ -40,14 +40,14 @@
 
         {if(!empty($formFieldServiceSundaySchoolTeacherSmall)):}
         <div class="form-group">
-          <label>Sonntagsschule klein</label><br />
+          <label>Kindertreff klein</label><br />
           {$formFieldServiceSundaySchoolTeacherSmall}
         </div>
         {endif;}
 
         {if(!empty($formFieldServiceSundaySchoolTeacherBig)):}
         <div class="form-group">
-          <label>Sonntagsschule groß</label><br />
+          <label>Kindertreff groß</label><br />
           {$formFieldServiceSundaySchoolTeacherBig}
         </div>
         {endif;}
@@ -113,7 +113,7 @@
               </div>
             </div>
 
-            <input type="button" value="PDF ansehen" class="btn btn-primary" onclick="jQuery('#createPdf').val(1);jQuery('#editEvent').submit();" />
+            <input type="button" value="PDF ansehen" class="btn btn-primary" onclick="jQuery('#createPdf').val(1);jQuery('#editEvent').attr('target', '_blank');jQuery('#editEvent').submit();" />
 
           </div>
 
@@ -159,10 +159,14 @@
 
         {else:}
 
-        <input type="submit" value="Speichern" class="btn btn-primary" />
+        <input type="button" value="Speichern" class="btn btn-primary" onclick="jQuery('#sendInfo').val(0);jQuery('#editEvent').attr('target', '_self');jQuery('#editEvent').submit();" />
+
+        {if($editMode === 'songs'):}
+        <input type="button" value="Speichern und Moderator informieren" class="btn btn-primary" onclick="jQuery('#sendInfo').val(1);jQuery('#editEvent').attr('target', '_self');jQuery('#editEvent').submit();" />
+        {endif;}
 
         {if($editMode === 'sermonTopic'):}
-          <input type="button" value="Speichern und Musikteamleiter informieren" class="btn btn-primary" onclick="jQuery('#sendInfo').val(1);jQuery('#editEvent').submit();" />
+          <input type="button" value="Speichern und Musikteamleiter informieren" class="btn btn-primary" onclick="jQuery('#sendInfo').val(1);jQuery('#editEvent').attr('target', '_self');jQuery('#editEvent').submit();" />
         {endif;}
 
         {endif;}

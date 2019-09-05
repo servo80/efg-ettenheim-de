@@ -86,6 +86,60 @@
 
       }
 
+      public function viewOverview() {
+
+        $fromTimestamp = time();
+        $toTimestamp = $fromTimestamp + 4 * 7 * 24 * 60 * 60;
+
+        $serviceSearch = new \BB\custom\extension\efgettenheim\lib\search\eventSearch($fromTimestamp, $toTimestamp);
+        $serviceFactory = \BB\custom\extension\efgettenheim\access\factory\service::get();
+        $results = $serviceFactory->searchRows($serviceSearch, true);
+
+        foreach($results as $result):
+
+          $serviceSundaySchoolTeachersSmall = explode('|', trim($result->serviceSundaySchoolTeacherSmall, '|'));
+          $serviceSundaySchoolTeachersBig = explode('|', trim($result->serviceSundaySchoolTeacherBig, '|'));
+
+          $serviceSundaySchoolTeachersSmallNames = array();
+          foreach($serviceSundaySchoolTeachersSmall as $serviceSundaySchoolTeacherSmall):
+            $serviceSundaySchoolTeachersSmallNames[] = $this->getStaffFullName($serviceSundaySchoolTeacherSmall);
+          endforeach;
+
+          $serviceSundaySchoolTeachersBigNames = array();
+          foreach($serviceSundaySchoolTeachersBig as $serviceSundaySchoolTeacherBig):
+            $serviceSundaySchoolTeachersBigNames[] = $this->getStaffFullName($serviceSundaySchoolTeacherBig);
+          endforeach;
+
+          $result->serviceModerator = $this->getStaffFullName($result->serviceModerator);
+          $result->servicePreacher = $this->getStaffFullName($result->servicePreacher);
+          $result->serviceWorshipLeader = $this->getStaffFullName($result->serviceWorshipLeader);
+          $result->serviceReceptionist = $this->getStaffFullName($result->serviceReceptionist);
+          $result->serviceAudioEngineer = $this->getStaffFullName($result->serviceAudioEngineer);
+          $result->serviceSundaySchoolTeacherSmall = implode(', ', $serviceSundaySchoolTeachersSmallNames);
+          $result->serviceSundaySchoolTeacherBig = implode(', ', $serviceSundaySchoolTeachersBigNames);
+
+        endforeach;
+
+        $this->view->add('events', $results);
+
+      }
+
+      /**
+       *
+       */
+      public function viewMenu() {
+
+        $this->view
+          ->assign('linkCalendar', $this->getLink($this->values['pageCalendar']['cnv_value'], true))
+          ->assign('linkSongs', $this->getLink($this->values['pageSongs']['cnv_value'], true))
+          ->assign('linkOverview', $this->getLink($this->values['pageOverview']['cnv_value'], true))
+          ->add('calendarActive', $this->page_id == $this->values['pageCalendar']['cnv_value'])
+          ->add('songsActive', $this->page_id == $this->values['pageSongs']['cnv_value'])
+          ->add('overviewActive', $this->page_id == $this->values['pageOverview']['cnv_value'])
+        ;
+
+      }
+
       /**
        *
        */
@@ -612,7 +666,7 @@
        */
       private function isMultiSelect($checkIdentifier) {
 
-        return in_array($checkIdentifier, ['serviceWorshipMusicians']);
+        return in_array($checkIdentifier, ['serviceWorshipMusicians', 'serviceSundaySchoolTeacherSmall', 'serviceSundaySchoolTeacherBig']);
       }
 
       /**
@@ -810,6 +864,15 @@
       private function sendInfoMail($editMode, $serviceRow) {
 
         switch($editMode):
+
+          case 'songs':
+
+            $receiver = $this->getStaffEmail($serviceRow->serviceModerator);
+            $reminderMails = new lib\classes\reminderMails();
+            $reminderMails->sendMail([$receiver], 'agenda_missing', $serviceRow);
+            $this->successMessage = 'Die Mail wurde an '.$receiver.' versendet';
+
+            break;
 
           case 'sermonTopic':
 

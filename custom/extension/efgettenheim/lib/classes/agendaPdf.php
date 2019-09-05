@@ -71,6 +71,21 @@
        * @return string
        */
       private function getServiceSummaryText() {
+
+        $serviceSundaySchoolTeachersSmall = explode('|', trim($this->serviceRow->serviceSundaySchoolTeacherSmall, '|'));
+        $serviceSundaySchoolTeachersBig = explode('|', trim($this->serviceRow->serviceSundaySchoolTeacherBig, '|'));
+
+        $serviceSundaySchoolTeachersSmallNames = array();
+        foreach($serviceSundaySchoolTeachersSmall as $serviceSundaySchoolTeacherSmall):
+          $serviceSundaySchoolTeachersSmallNames[] = $this->getStaffFullName($serviceSundaySchoolTeacherSmall);
+        endforeach;
+
+        $serviceSundaySchoolTeachersBigNames = array();
+        foreach($serviceSundaySchoolTeachersBig as $serviceSundaySchoolTeacherBig):
+          $serviceSundaySchoolTeachersBigNames[] = $this->getStaffFullName($serviceSundaySchoolTeacherBig);
+        endforeach;
+
+
         $serviceSummaryText =
           "\r\n".
           'Predigt: '.$this->getStaffFullName($this->serviceRow->servicePreacher)."\r\n".
@@ -78,8 +93,8 @@
           'Musikteam: '.$this->getStaffFullName($this->serviceRow->serviceWorshipLeader)."\r\n".
           'Technik: '.$this->getStaffFullName($this->serviceRow->serviceAudioEngineer)."\r\n".
           'Begrüßung: '.$this->getStaffFullName($this->serviceRow->serviceReceptionist)."\r\n".
-          'Kindertreff (klein): '.$this->getStaffFullName($this->serviceRow->serviceSundaySchoolTeacherSmall)."\r\n".
-          'Kindertreff (groß): '.$this->getStaffFullName($this->serviceRow->serviceSundaySchoolTeacherBig)."\r\n\r\n"
+          'Kindertreff (klein): '.implode(', ', $serviceSundaySchoolTeachersSmallNames)."\r\n".
+          'Kindertreff (groß): '.implode(', ', $serviceSundaySchoolTeachersBigNames)."\r\n\r\n"
         ;
         return utf8_decode($serviceSummaryText);
       }

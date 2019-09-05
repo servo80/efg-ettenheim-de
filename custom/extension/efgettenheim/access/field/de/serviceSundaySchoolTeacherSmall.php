@@ -27,15 +27,15 @@
     /**
      * @var string $type
      */
-    protected $type = 'int';
+    protected $type = 'varchar';
     /**
      * @var int $length
      */
-    protected $length = 10;
+    protected $length = 20;
     /**
      * @var string $form
      */
-    protected $form = 'cn_id';
+    protected $form = 'cn_ids';
     /**
      * @var string $unit
      */

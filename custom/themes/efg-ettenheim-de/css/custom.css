@@ -4,3 +4,47 @@
 .mb-20 {
 	margin-bottom:20px !important;
 }
+
+ol.menu {
+	list-style-type:none;
+  overflow:hidden;
+  padding-left:15px;
+}
+
+ol.menu li {
+	display:inline-block;
+	float:left;
+	margin-right:10px;
+  background-color:#2a6496;
+  padding:5px;
+}
+ol.menu li a {
+  color:#fff;
+}
+ol.menu li.active a {
+  font-weight:bold;
+}
+
+table.songs {
+  margin-bottom:10px;
+}
+
+table.songs th, td {
+  padding: 3px;
+  border:1px solid black;
+  color:black;
+}
+
+table.songs th {
+  background-color:black;
+  color:white;
+  border:1px solid white;
+}
+
+table.songs th.left {
+  border-left:1px solid black;
+}
+
+table.songs th.right {
+  border-right:1px solid black;
+}

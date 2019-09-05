@@ -22,7 +22,7 @@
 
         // Alle Events holen, die in den nächsten 6 Tagen stattfinden
         $currentTimestamp = time();
-        $currentTimestamp = 1563184800+$fourDays;
+        $currentTimestamp = 1567013400+$fourDays;
         $triggerTimestamp = $currentTimestamp + $sixDays;
         $fromTimestamp = mktime(0, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
         $toTimestamp = mktime(23, 59, 0, strftime('%m', $triggerTimestamp), strftime('%d', $triggerTimestamp), strftime('%Y', $triggerTimestamp));
@@ -132,14 +132,14 @@
         $userIDs = [
           $serviceRow->serviceModerator,
           $serviceRow->serviceWorshipLeader,
-          $serviceRow->serviceSundaySchoolTeacherSmall,
-          $serviceRow->serviceSundaySchoolTeacherBig,
           $serviceRow->serviceReceptionist,
           $serviceRow->serviceAudioEngineer,
           $serviceRow->servicePreacher
         ];
 
         $userIDs = array_merge($userIDs, explode('|', trim($serviceRow->serviceWorshipMusicians, '|')));
+        $userIDs = array_merge($userIDs, explode('|', trim($serviceRow->serviceSundaySchoolTeacherSmall, '|')));
+        $userIDs = array_merge($userIDs, explode('|', trim($serviceRow->serviceSundaySchoolTeacherBig, '|')));
 
         return $this->getMailAddressesByUserIDs($userIDs);
 

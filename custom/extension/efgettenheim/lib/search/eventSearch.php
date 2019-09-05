@@ -59,7 +59,8 @@
         $fieldTo = new \BB\access\conditionField();
         $fieldTo
           ->id(\BB\custom\extension\efgettenheim\access\field\de\serviceDate::class)
-          ->isLessThan($this->toTimestamp);
+          ->isLessThan($this->toTimestamp)
+          ->sortAsc();
 
 
         $fieldset->add($fieldFrom);

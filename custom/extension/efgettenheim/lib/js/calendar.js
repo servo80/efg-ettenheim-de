@@ -11,7 +11,7 @@ jQuery(document).ready(function() {
     minimumInputLength: 1,
     width: '600px',
     ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
-      url: 'http://localhost/efg-ettenheim-de-4/de/de/event.html?searchSong=1',
+      url: '../de/event.html?searchSong=1',
       dataType: 'json',
       quietMillis: 250,
       data: function (term, page) {
@@ -44,6 +44,8 @@ jQuery(document).ready(function() {
 
   // SELECT2 FOR WORKSHOP MUSICIANS
   jQuery('#serviceWorshipMusicians').select2({});
+  jQuery('#serviceSundaySchoolTeacherSmall').select2({});
+  jQuery('#serviceSundaySchoolTeacherBig').select2({});
 
   jQuery('#songDateFrom').datepicker({
     onSelect: function(dateText, inst) { jQuery('#filterSongs').submit(); }
@@ -140,7 +142,7 @@ jQuery(document).ready(function() {
     eventClick: function(calEvent, jsEvent, view) {
 
       var timestamp = calEvent.start.unix();
-      window.open(calendarEventsEditPage + '?eventTimestamp='+timestamp+(calEvent.className != '' ? '&mode='+calEvent.className : ''),'_blank');
+      document.location.href = '../' + calendarEventsEditPage + '?eventTimestamp='+timestamp+(calEvent.className != '' ? '&mode='+calEvent.className : '');
 
     }
   });

@@ -4,30 +4,6 @@
 
       <style>
 
-        table.songs {
-          margin-bottom:10px;
-        }
-
-        table.songs th, td {
-          padding: 3px;
-          border:1px solid black;
-          color:black;
-        }
-
-        table.songs th {
-          background-color:black;
-          color:white;
-          border:1px solid white;
-        }
-
-        table.songs th.left {
-          border-left:1px solid black;
-        }
-
-        table.songs th.right {
-          border-right:1px solid black;
-        }
-
         table.ui-datepicker-calendar, div.ui-datepicker-header {
           background-color:white;
           border:1px solid black;

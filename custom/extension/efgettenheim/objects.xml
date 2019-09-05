@@ -1,9 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <objects>
 
+  <object name="Gottesdienst: Menü" id="menu" view="menu" engine="extension" stage="0" locations="1">
+    <file type="text/javascript" href="custom/extension/efgettenheim/lib/js/calendar.js" />
+    <field name="Seite: Kalender" key="pageCalendar" type="page_id" length="int" width="300" height="1" />
+    <field name="Seite: Lieder" key="pageSongs" type="page_id" length="int" width="300" height="1" />
+    <field name="Seite: Übersicht" key="pageOverview" type="page_id" length="int" width="300" height="1" />
+  </object>
+
   <object name="Gottesdienst: Kalender" id="calendar" view="calendar" engine="extension" stage="0" locations="1">
     <file type="text/javascript" href="custom/extension/efgettenheim/lib/js/calendar.js" />
     <field name="Seite: Event bearbeiten" key="pageEditEvent" type="page_id" length="int" width="300" height="1" />
+  </object>
+
+  <object name="Gottesdienst: Übersicht" id="overview" view="overview" engine="extension" stage="0" locations="1">
+    <file type="text/javascript" href="custom/extension/efgettenheim/lib/js/calendar.js" />
   </object>
 
   <object name="Gottesdienst: Event bearbeiten" id="editEvent" view="editEvent" engine="extension" stage="0" locations="1">
