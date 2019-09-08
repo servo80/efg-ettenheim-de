@@ -11,15 +11,16 @@
             <th>Moderator</th>
             <th>Lobpreisleiter</th>
             <th>Technik</th>
-            <th>Kindertreff groß</th>
             <th>Kindertreff klein</th>
-            <th class="right">Begrüßung</th>
+            <th>Kindertreff groß</th>
+            <th>Begrüßung</th>
+            <th class="right">PDF</th>
           </tr>
 
           {foreach($events as  $event):}
 
           <tr>
-            <td>{echo strftime('%A, den %d. %B %Y', $event->serviceDate)}</td>
+            <td><a href="{calendarEventsEditPage}?eventTimestamp={$event->serviceDate}">{echo strftime('%A, den %d. %B %Y', $event->serviceDate)}</a></td>
             <td>{echo $event->servicePreacher}</td>
             <td>{echo $event->serviceModerator}</td>
             <td>{echo $event->serviceWorshipLeader}</td>
@@ -27,6 +28,11 @@
             <td>{echo $event->serviceSundaySchoolTeacherSmall}</td>
             <td>{echo $event->serviceSundaySchoolTeacherBig}</td>
             <td>{echo $event->serviceReceptionist}</td>
+            {if($event->serviceDate < time()):}
+            <td><a href="{calendarEventsEditPage}?eventTimestamp={$event->serviceDate}&createPdf=1" target="_blank"><img src="skins/responsive/icons/filetypes/pdf.gif" /></a></td>
+            {else:}
+            <td></td>
+            {endif;}
           </tr>
 
           {endforeach;}

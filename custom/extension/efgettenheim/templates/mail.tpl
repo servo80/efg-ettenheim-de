@@ -198,7 +198,15 @@
 
                                     {elseif($type == 'agenda_missing'):}
 
-                                    wurden nun die Lieder ausgew&auml;hlt. Der Ablauf kann nun fertiggestellt werden.
+                                    wurden nun folgende Lieder ausgew&auml;hlt:
+                                    <br /><br />
+                                    <ol>
+                                    {foreach($songs as $song):}
+                                    <li>{echo $song->songTitle}</li>
+                                    {endforeach;}
+                                    </ol>
+                                    <br /><br />
+                                    Der Ablauf kann nun fertiggestellt werden.
 
                                     <br /><br />
                                     <a href="{app:path:https}de/event.html?eventTimestamp={$serviceRow->serviceDate}&mode=agenda" class="link2" bgcolor="#1A54BA" style="clear:both; display:block; text-align:center; color:#ffffff; background:#1A54BA; padding:15px 18px;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;">Hier klicken, um den Ablauf fertigzustellen.</a>

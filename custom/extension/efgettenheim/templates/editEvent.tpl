@@ -142,11 +142,12 @@
               {foreach($songs as $song):}
               <div style="cursor:pointer;" class="alert alert-info" data-responsible="Musikteam" data-song-id="{$song->getContentID()}">Lied: {$song->songTitle}</div>
               {endforeach;}
-              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Gebetsgemeinschaft</div>
               <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$moderatorName}">Begrüßung</div>
-              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Segen</div>
               <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$moderatorName}">Infoteil</div>
               <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$moderatorName}">Kollekte</div>
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Gebetsgemeinschaft</div>
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Segen</div>
+              <div style="cursor:pointer;" class="alert alert-info" data-responsible="{$preacherName}">Abendmahl</div>
             </div>
           </div>
         </div>
@@ -159,10 +160,10 @@
 
         {else:}
 
-        <input type="button" value="Speichern" class="btn btn-primary" onclick="jQuery('#sendInfo').val(0);jQuery('#editEvent').attr('target', '_self');jQuery('#editEvent').submit();" />
+        <input type="button" value="Speichern" class="btn btn-primary" onclick="jQuery('#createPdf').val(0);jQuery('#sendInfo').val(0);jQuery('#editEvent').attr('target', '_self');jQuery('#editEvent').submit();" />
 
         {if($editMode === 'songs'):}
-        <input type="button" value="Speichern und Moderator informieren" class="btn btn-primary" onclick="jQuery('#sendInfo').val(1);jQuery('#editEvent').attr('target', '_self');jQuery('#editEvent').submit();" />
+        <input type="button" value="Speichern und Moderator/Musikteam informieren" class="btn btn-primary" onclick="jQuery('#sendInfo').val(1);jQuery('#editEvent').attr('target', '_self');jQuery('#editEvent').submit();" />
         {endif;}
 
         {if($editMode === 'sermonTopic'):}

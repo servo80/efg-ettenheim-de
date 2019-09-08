@@ -89,7 +89,7 @@
       public function viewOverview() {
 
         $fromTimestamp = time();
-        $toTimestamp = $fromTimestamp + 4 * 7 * 24 * 60 * 60;
+        $toTimestamp = $fromTimestamp + 15 * 7 * 24 * 60 * 60;
 
         $serviceSearch = new \BB\custom\extension\efgettenheim\lib\search\eventSearch($fromTimestamp, $toTimestamp);
         $serviceFactory = \BB\custom\extension\efgettenheim\access\factory\service::get();
@@ -120,7 +120,10 @@
 
         endforeach;
 
-        $this->view->add('events', $results);
+        $this->view
+          ->add('events', $results)
+          ->assign('calendarEventsEditPage', $this->getLink($this->values['pageEditEvent']['cnv_value'], true))
+        ;
 
       }
 
@@ -408,6 +411,7 @@
         $eventTimestamp = $bbRequest->getString('eventTimestamp');
         $editMode = $bbRequest->getString('mode');
         $searchSong = $bbRequest->getBoolean('searchSong');
+        $createPdf = $bbRequest->getBoolean('createPdf');
 
         if($searchSong):
           $searchTerm = $bbRequest->getString('q');
@@ -419,6 +423,15 @@
         $serviceAgendaBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceAgenda::get();
         $songs = $serviceSongBridge->getSongRows($serviceRow->getContentID());
         $agenda = $serviceAgendaBridge->getAgendaRows($serviceRow->getContentID());
+
+        if($createPdf):
+          $agendaPdf = new \BB\custom\extension\efgettenheim\lib\classes\agendaPdf(
+            $serviceRow,
+            $agenda
+          );
+          $agendaPdf->build();
+          $agendaPdf->output();
+        endif;
 
         $modelField = \BB\model\field::get();
 
@@ -558,6 +571,10 @@
 
         if($rights->hasRightToManageReception()):
           $formFieldIdentifiers[] = 'serviceReceptionist';
+        endif;
+
+        if($rights->hasRightToEditWorshipMusicians()):
+          $formFieldIdentifiers[] = 'serviceWorshipMusicians';
         endif;
 
         return $formFieldIdentifiers;
@@ -854,7 +871,6 @@
           $agendaPdf->output();
         endif;
 
-
       }
 
       /**
@@ -867,10 +883,20 @@
 
           case 'songs':
 
-            $receiver = $this->getStaffEmail($serviceRow->serviceModerator);
+            $moderatorEmail = $this->getStaffEmail($serviceRow->serviceModerator);
+            $receivers = [$moderatorEmail];
+            $serviceWorshipMusicians = explode('|', trim($serviceRow->serviceWorshipMusicians, '|'));
+
+            foreach($serviceWorshipMusicians as $serviceWorshipMusician):
+              $musicianEmail = $this->getStaffEmail($serviceWorshipMusician);
+              if(!empty($musicianEmail)):
+                $receivers[] = $musicianEmail;
+              endif;
+            endforeach;
+
             $reminderMails = new lib\classes\reminderMails();
-            $reminderMails->sendMail([$receiver], 'agenda_missing', $serviceRow);
-            $this->successMessage = 'Die Mail wurde an '.$receiver.' versendet';
+            $reminderMails->sendMail($receivers, 'agenda_missing', $serviceRow);
+            $this->successMessage = 'Die Mail wurde an '.implode(', ', $receivers).' versendet';
 
             break;
 

@@ -15,6 +15,7 @@
 
   <object name="Gottesdienst: Übersicht" id="overview" view="overview" engine="extension" stage="0" locations="1">
     <file type="text/javascript" href="custom/extension/efgettenheim/lib/js/calendar.js" />
+    <field name="Seite: Event bearbeiten" key="pageEditEvent" type="page_id" length="int" width="300" height="1" />
   </object>
 
   <object name="Gottesdienst: Event bearbeiten" id="editEvent" view="editEvent" engine="extension" stage="0" locations="1">

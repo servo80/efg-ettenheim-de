@@ -154,8 +154,15 @@ jQuery(document).ready(function() {
 
   jQuery.fn.extend({
     editAgenda: function () {
+
       var agendaElement = jQuery(this);
       var agendaID = agendaElement.data('id');
+
+      if(agendaID == "new") {
+        alert('Bitte speichern Sie den Ablauf, um diesen Block zu bearbeiten.');
+        return;
+      }
+
       var agendaResponsible = agendaElement.data('responsible');
       var agendaRemarks = agendaElement.data('remarks');
       var agendaTitle = agendaElement.find('span').html();

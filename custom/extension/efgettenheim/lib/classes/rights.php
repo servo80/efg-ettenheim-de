@@ -84,6 +84,13 @@
       /**
        * @return bool
        */
+      public function hasRightToEditWorshipMusicians() {
+        return (bool)$this->staffRow->staffRightWorshipLeader;
+      }
+
+      /**
+       * @return bool
+       */
       public function hasRightToEditSermonTopic() {
         return (bool)$this->staffRow->staffRightPreacher || (bool)$this->staffRow->staffRightModerator;
       }

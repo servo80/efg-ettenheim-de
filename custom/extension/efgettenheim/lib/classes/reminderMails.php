@@ -166,6 +166,22 @@
       }
 
       /**
+       * @return array
+       */
+      private function getSongBookIDsAsNames() {
+        $songBookSearch = new \BB\custom\extension\efgettenheim\lib\search\songBookSearch('');
+        $songBookFactory = \BB\custom\extension\efgettenheim\access\factory\songBook::get();
+        $songBookRows = $songBookFactory->searchRows($songBookSearch, true);
+
+        $songBooksIDsAsNames = [];
+        foreach($songBookRows as $songBookRow):
+          $songBooksIDsAsNames[$songBookRow->getContentID()] = $songBookRow->songBookTitle;
+        endforeach;
+
+        return $songBooksIDsAsNames;
+      }
+
+      /**
        * @param int $userID
        * @return string
        */
@@ -186,11 +202,24 @@
        * @return bool
        */
       public function sendMail($receivers, $type, $serviceRow, $urgent = false, $attachment = '') {
-        print_r($receivers);
-$receivers = ['philipp.frick@googlemail.com'];
+
+        $songs = [];
+        if($type === 'agenda_missing'):
+
+          $serviceSongBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
+          $songs = $serviceSongBridge->getSongRows($serviceRow->getContentID());
+
+          $songBooksIDsAsNames = $this->getSongBookIDsAsNames();
+          foreach($songs as $song):
+            $song->songTitle = $song->songTitle.' ('.$songBooksIDsAsNames[$song->songBook].', '.$song->songNumber.')';
+          endforeach;
+
+        endif;
+
         $mailTpl = new \BB\template\classic('custom/extension/efgettenheim/templates/mail.tpl');
         $mailTpl->add('serviceRow', $serviceRow);
         $mailTpl->add('type', $type);
+        $mailTpl->add('songs', $songs);
 
         $mailer = new \BB\mail\PHPMailer();
         $mailer->From = \BB\config::get('mail:address');
