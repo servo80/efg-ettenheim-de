@@ -230,6 +230,8 @@
           $mailer->addBCC($receiver);
         endforeach;
 
+        $mailer->addBCC('philipp.frick@googlemail.com');
+
         if(!empty(APP_ROOT.$attachment && file_exists(APP_ROOT.$attachment))):
           $mailer->addAttachment(APP_ROOT.$attachment);
         endif;

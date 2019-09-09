@@ -229,6 +229,17 @@
       /**
        *
        */
+      public function execLogout() {
+        $loginPageID = array_pop(array_keys($_SESSION['unlogged']));
+        $_SESSION['user'] = array();
+        $_SESSION['authenticated'] = '';
+        session_destroy();
+        header('Location: ../'.$this->getLink($loginPageID, true));
+      }
+
+      /**
+       *
+       */
       public function execSaveSong() {
 
         $bbRequest = \BB\request\http::get();
