@@ -22,7 +22,6 @@
 
         // Alle Events holen, die in den nächsten 6 Tagen stattfinden
         $currentTimestamp = time();
-        $currentTimestamp = 1567013400+$fourDays;
         $triggerTimestamp = $currentTimestamp + $sixDays;
         $fromTimestamp = mktime(0, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
         $toTimestamp = mktime(23, 59, 0, strftime('%m', $triggerTimestamp), strftime('%d', $triggerTimestamp), strftime('%Y', $triggerTimestamp));
