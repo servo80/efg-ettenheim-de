@@ -31,20 +31,34 @@
         $calendarEvents = [];
         for($currentTimestamp = $startTimestamp; $currentTimestamp <= $endTimestamp; $currentTimestamp += $dayAsTimestamp):
           $currentWeekDay = strftime('%w', $currentTimestamp);
-          if(0 == $currentWeekDay):
+
+          $eventTimestamp = mktime(10, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
+          $dayStartTimestamp = mktime(0, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
+          $dayEndTimestamp = mktime(0, 0, 0, strftime('%m', $currentTimestamp+$dayAsTimestamp), strftime('%d', $currentTimestamp+$dayAsTimestamp), strftime('%Y', $currentTimestamp+$dayAsTimestamp));
+
+          $isSpecialService = false;
+          if(0 != $currentWeekDay):
+            $specialServiceRow = $this->getServiceRowByInterval($dayStartTimestamp, $dayEndTimestamp);
+            if(is_object($specialServiceRow)):
+              $isSpecialService = true;
+              $eventTimestamp = $specialServiceRow->serviceDate;
+            endif;
+          endif;
+
+          if(0 == $currentWeekDay || $isSpecialService):
             $calendarEvents[] = [
               'title' => 'Gottesdienst',
-              'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp),
+              'start' => strftime("%Y-%m-%d %H:%M", $eventTimestamp),
               'backgroundColor' => '#ff9681',
               'className' => ''
             ];
 
-            $eventTimestamp = mktime(10, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
+
 
             if($this->isResponsibleWorshipLeader($eventTimestamp) && $this->hasSermonTopic($eventTimestamp)):
               $calendarEvents[] = [
                 'title' => 'Lieder bearbeiten',
-                'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp),
+                'start' => strftime("%Y-%m-%d %H:%M", $eventTimestamp),
                 'backgroundColor' => '#acc7dc',
                 'className' => 'songs'
               ];
@@ -53,7 +67,7 @@
             if($this->isResponsiblePreacherOrModerator($eventTimestamp)):
               $calendarEvents[] = [
                 'title' => 'Predigtthema bearbeiten',
-                'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp),
+                'start' => strftime("%Y-%m-%d %H:%M", $eventTimestamp),
                 'backgroundColor' => '#bfe2ca',
                 'textColor' => '#000000',
                 'className' => 'sermonTopic'
@@ -63,7 +77,7 @@
             if($this->isResponsibleModerator($eventTimestamp) && $this->hasSongs($eventTimestamp) && $this->hasSermonTopic($eventTimestamp)):
               $calendarEvents[] = [
                 'title' => 'Ablauf bearbeiten',
-                'start' => strftime("%Y-%m-%d 10:00", $currentTimestamp),
+                'start' => strftime("%Y-%m-%d %H:%M", $eventTimestamp),
                 'backgroundColor' => '#fed88f',
                 'textColor' => '#000000',
                 'className' => 'agenda'
@@ -707,6 +721,21 @@
         $results = $serviceFactory->searchRows($serviceSearch, true);
 
         return $results;
+      }
+
+      /**
+       * @param $fromTimestamp
+       * @param $toTimestamp
+       * @return access\object\service|mixed
+       */
+      private function getServiceRowByInterval($fromTimestamp, $toTimestamp) {
+
+        $serviceSearch = new \BB\custom\extension\efgettenheim\lib\search\eventSearch($fromTimestamp, $toTimestamp);
+        $serviceFactory = \BB\custom\extension\efgettenheim\access\factory\service::get();
+        $results = $serviceFactory->searchRows($serviceSearch, true);
+        $serviceRow = current($results);
+
+        return $serviceRow;
       }
 
       /**
