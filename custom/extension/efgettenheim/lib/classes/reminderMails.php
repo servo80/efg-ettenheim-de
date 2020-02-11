@@ -23,7 +23,7 @@
         // Alle Events holen, die in den nächsten 6 Tagen stattfinden
         $currentTimestamp = time();
         $triggerTimestamp = $currentTimestamp + $sixDays;
-        $fromTimestamp = mktime(0, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
+        $fromTimestamp = mktime(12, 0, 0, strftime('%m', $currentTimestamp), strftime('%d', $currentTimestamp), strftime('%Y', $currentTimestamp));
         $toTimestamp = mktime(23, 59, 0, strftime('%m', $triggerTimestamp), strftime('%d', $triggerTimestamp), strftime('%Y', $triggerTimestamp));
 
         $serviceSearch = new \BB\custom\extension\efgettenheim\lib\search\eventSearch($fromTimestamp, $toTimestamp);
@@ -228,6 +228,10 @@
         foreach($receivers as $receiver):
           $mailer->addBCC($receiver);
         endforeach;
+
+        if('agenda_final' === $type):
+          $mailer->addBCC('efgettenheim.technik@gmail.com');
+        endif;
 
         $mailer->addBCC('philipp.frick@googlemail.com');
 

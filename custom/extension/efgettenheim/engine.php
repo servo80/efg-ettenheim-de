@@ -95,7 +95,7 @@
         $serviceFactory = \BB\custom\extension\efgettenheim\access\factory\service::get();
         $results = $serviceFactory->searchRows($serviceSearch, true);
 
-        foreach($results as $result):
+        foreach($results as &$result):
 
           $serviceSundaySchoolTeachersSmall = explode('|', trim($result->serviceSundaySchoolTeacherSmall, '|'));
           $serviceSundaySchoolTeachersBig = explode('|', trim($result->serviceSundaySchoolTeacherBig, '|'));
@@ -371,6 +371,7 @@
           ->assign('songNumber', $songNumber)
           ->assign('songDateFrom', $songDateFrom)
           ->assign('songDateTo', $songDateTo)
+          ->assign('songPage', $this->getLink($this->pageID, true))
           ->assign('songEditPage', $this->getLink($this->values['pageEditSong']['cnv_value'], true))
           ->add('songs', $validSongs)
           ->add('worshipLeaders', $worshipLeaders)
@@ -537,7 +538,9 @@
             break;
 
           case 'songs':
-            $formFieldIdentifiers = [];
+            $formFieldIdentifiers = [
+              'serviceWorshipMusicians'
+            ];
             break;
 
           default:
@@ -805,6 +808,7 @@
         endif;
 
         if($editMode == 'songs'):
+
           $serviceSongBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceSong::get();
           $songs = $serviceSongBridge->getSongRows($eventID);
           $unrelateSongIDs = [];
@@ -813,8 +817,9 @@
           endforeach;
           $serviceSongBridge->unrelate($eventID, $unrelateSongIDs);
           $serviceSongBridge->relate($eventID, explode('|', $songIDs));
-          \brandbox\api\cache\cache::get()->cache = [];
+
         elseif($editMode == 'agenda'):
+
           $serviceAgendaBridge = \BB\custom\extension\efgettenheim\access\bridge\serviceAgenda::get();
           $factoryAgenda = \BB\custom\extension\efgettenheim\access\factory\agenda::get();
           $storedAgendas = $serviceAgendaBridge->getAgendaRows($eventID);
@@ -854,23 +859,27 @@
           $serviceAgendaBridge->relate($eventID, $agendaIDs);
           \brandbox\api\cache\cache::get()->cache = [];
 
-        else:
+        endif;
 
-          $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers($editMode);
+        $formFieldIdentifiers = $this->getAllowedFormFieldIdentifiers($editMode);
 
-          foreach($formFieldIdentifiers as $formFieldIdentifier):
+        foreach($formFieldIdentifiers as $formFieldIdentifier):
 
-            if($this->isMultiSelect($formFieldIdentifier)):
-              $formFieldValue = $bbRequest->getArray($formFieldIdentifier);
-              $formFieldValue = '|'.implode('|', $formFieldValue).'|';
-            else:
-              $formFieldValue = $bbRequest->getParam($formFieldIdentifier);
-            endif;
-            $serviceRow->{$formFieldIdentifier} = $formFieldValue;
-          endforeach;
+          if($this->isMultiSelect($formFieldIdentifier)):
+            $formFieldValue = $bbRequest->getArray($formFieldIdentifier);
+            $formFieldValue = '|'.implode('|', $formFieldValue).'|';
+          else:
+            $formFieldValue = $bbRequest->getParam($formFieldIdentifier);
+          endif;
+          $serviceRow->{$formFieldIdentifier} = $formFieldValue;
+        endforeach;
 
+        if(count($formFieldIdentifiers) > 0):
           $serviceRow->save();
-
+          unset($this->serviceRowsByEventTimestamp[$serviceRow->serviceDate]);
+          if($editMode == 'songs'):
+            header('Location: '.$this->getLink($this->values['pageEditEvent']['cnv_value'], true).'?eventTimestamp='.$serviceRow->serviceDate.'&mode='.$editMode);
+          endif;
         endif;
 
         if($createPdf):

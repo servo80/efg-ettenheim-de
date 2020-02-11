@@ -16,7 +16,7 @@
 
       </style>
 
-      <form method="post" id="filterSongs">
+      <form method="post" id="filterSongs" style="float:left;">
 
         <div class="form-group" style="float:left;margin-right:20px;">
           <label>Titel</label><br />
@@ -62,6 +62,9 @@
 
       </form>
 
+      <a href="{songPage}" style="float:left;clear:left;">&raquo; Filter zurücksetzen</a>
+      <a href="{songEditPage}" style="float:left;clear:left;padding-bottom:10px;">&raquo; Neues Lied anlegen</a>
+
       <table style="width:100%" class="songs">
 
         <thead>
@@ -92,7 +95,7 @@
 
       </table>
 
-      <a href="{songEditPage}">Neues Lied anlegen</a>
+
 
     </div>
   </div>
