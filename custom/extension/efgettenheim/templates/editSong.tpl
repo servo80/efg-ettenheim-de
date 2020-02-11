@@ -4,7 +4,7 @@
 
       <form method="post" id="filterSongs">
 
-        <input type="hidden" name="exec" value="saveSong" />
+        <input type="hidden" name="exec[{cn_id}]" value="saveSong" />
         <input type="hidden" name="songID" value="{songID}" />
 
         <div class="form-group" style="">

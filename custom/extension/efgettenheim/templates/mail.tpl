@@ -220,6 +220,14 @@
 
                                     {endif;}
 
+                                    {if(!empty($serviceRow->serviceAdditionalInfo)):}
+                                    <br /><br />
+                                    <span style="color:red;">
+                                    Wichtige Hinweise zum Gottesdienst:<br /><br />
+                                    {echo $serviceRow->serviceAdditionalInfo}
+                                    </span>
+                                    {endif;}
+
                                   </p>
                                 </div>
                               </div>

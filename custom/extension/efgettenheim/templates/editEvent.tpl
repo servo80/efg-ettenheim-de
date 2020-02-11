@@ -11,7 +11,7 @@
 
         <input type="hidden" name="eventID" value="{eventID}" />
         <input type="hidden" name="editMode" value="{$editMode}" />
-        <input type="hidden" name="exec" value="saveEvent" />
+        <input type="hidden" name="exec[{cn_id}]" value="saveEvent" />
         <input type="hidden" name="sendInfo" id="sendInfo" value="0" />
         <input type="hidden" name="createPdf" id="createPdf" value="0 " />
         <input type="hidden" name="songIDs" id="songIDs" value="" />
@@ -77,6 +77,17 @@
         <div class="form-group">
           <label>Predigtthema</label><br />
           {$formFieldServiceSermonTopic}
+        </div>
+        {endif;}
+
+        {if(!empty($formFieldServiceAdditionalInfo)):}
+        <div class="form-group">
+          <label>Besonderheiten/Bemerkungen</label><br />
+          {if($hasRightToEditAdditionalInfo):}
+          {$formFieldServiceAdditionalInfo}
+          {else:}
+          {$formValueServiceAdditionalInfo}
+          {endif;}
         </div>
         {endif;}
 

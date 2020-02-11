@@ -7,6 +7,7 @@
 
           <tr>
             <th class="left">Datum</th>
+            <th>Besonderheiten</th>
             <th>Prediger</th>
             <th>Moderator</th>
             <th>Lobpreisleiter</th>
@@ -20,7 +21,8 @@
           {foreach($events as  $event):}
 
           <tr>
-            <td><a href="{calendarEventsEditPage}?eventTimestamp={$event->serviceDate}">{echo strftime('%A, den %d. %B %Y', $event->serviceDate)}</a></td>
+            <td><a href="{calendarEventsEditPage}?eventTimestamp={$event->serviceDate}">{echo utf8_encode(strftime('%A, den %d. %B %Y', $event->serviceDate))}</a></td>
+            <td>{echo nl2br($event->serviceAdditionalInfo)}</td>
             <td>{echo $event->servicePreacher}</td>
             <td>{echo $event->serviceModerator}</td>
             <td>{echo $event->serviceWorshipLeader}</td>

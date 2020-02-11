@@ -288,6 +288,7 @@
 
         $songBooksIDsAsNames = $this->getSongBookIDsAsNames();
         $this->view
+          ->assign('cn_id', $this->cn_id)
           ->assign('songID', $songRow->getContentID())
           ->assign('songTitle', $songRow->songTitle)
           ->assign('songNumber', $songRow->songNumber)
@@ -436,6 +437,7 @@
         $bbRequest = \BB\request\http::get();
         $eventTimestamp = $bbRequest->getString('eventTimestamp');
         $editMode = $bbRequest->getString('mode');
+        $successMessage = $bbRequest->getString('successMessage');
         $searchSong = $bbRequest->getBoolean('searchSong');
         $createPdf = $bbRequest->getBoolean('createPdf');
 
@@ -481,7 +483,8 @@
           $formField = \BB\model\formField::instance($options);
 
           $this->view
-            ->add('formField'.ucfirst($formFieldIdentifier), $formField->getField());
+            ->add('formField'.ucfirst($formFieldIdentifier), $formField->getField())
+            ->add('formValue'.ucfirst($formFieldIdentifier), ($formFieldValue != "" ? $formFieldValue : '-'));
 
         endforeach;
 
@@ -493,12 +496,14 @@
         $this->view
           ->add('eventTimestamp', $eventTimestamp)
           ->add('editMode', $editMode)
-          ->add('successMessage', $this->successMessage)
+          ->add('successMessage', !empty($successMessage) ? $successMessage : $this->successMessage)
           ->add('songs', $songs)
           ->add('agenda', $agenda)
           ->add('sermonTopic', $serviceRow->serviceSermonTopic)
           ->add('preacherName', $this->getStaffFullName($serviceRow->servicePreacher))
           ->add('moderatorName', $this->getStaffFullName($serviceRow->serviceModerator))
+          ->add('hasRightToEditAdditionalInfo', $this->hasRightToEditAdditionalInfo())
+          ->assign('cn_id', $this->cn_id)
           ->assign('calendarPage', $this->getLink($this->values['pageCalendar']['cnv_value'], true))
           ->assign('eventID', $serviceRow->getContentID())
         ;
@@ -577,32 +582,39 @@
 
         if($rights->hasRightToManageModerators()):
           $formFieldIdentifiers[] = 'serviceModerator';
+          $formFieldIdentifiers[] = 'serviceAdditionalInfo';
         endif;
 
         if($rights->hasRightToManagePreachers()):
           $formFieldIdentifiers[] = 'servicePreacher';
+          $formFieldIdentifiers[] = 'serviceAdditionalInfo';
         endif;
 
         if($rights->hasRightToManageWorship()):
           $formFieldIdentifiers[] = 'serviceWorshipLeader';
           $formFieldIdentifiers[] = 'serviceWorshipMusicians';
+          $formFieldIdentifiers[] = 'serviceAdditionalInfo';
         endif;
 
         if($rights->hasRightToManageAudioEngineers()):
           $formFieldIdentifiers[] = 'serviceAudioEngineer';
+          $formFieldIdentifiers[] = 'serviceAdditionalInfo';
         endif;
 
         if($rights->hasRightToManageSundaySchool()):
           $formFieldIdentifiers[] = 'serviceSundaySchoolTeacherSmall';
           $formFieldIdentifiers[] = 'serviceSundaySchoolTeacherBig';
+          $formFieldIdentifiers[] = 'serviceAdditionalInfo';
         endif;
 
         if($rights->hasRightToManageReception()):
           $formFieldIdentifiers[] = 'serviceReceptionist';
+          $formFieldIdentifiers[] = 'serviceAdditionalInfo';
         endif;
 
         if($rights->hasRightToEditWorshipMusicians()):
           $formFieldIdentifiers[] = 'serviceWorshipMusicians';
+          $formFieldIdentifiers[] = 'serviceAdditionalInfo';
         endif;
 
         return $formFieldIdentifiers;
@@ -644,6 +656,23 @@
         $serviceRow = $this->getServiceRowByEventTimestamp($eventTimestamp);
 
         return ($hasRightToEditWorshipSongs && $userID === (int)$serviceRow->serviceWorshipLeader);
+
+      }
+
+      /**
+       * @return bool
+       */
+      private function hasRightToEditAdditionalInfo() {
+
+        $rights = $this->getRights();
+
+        return (
+          $rights->hasRightToManageModerators() ||
+          $rights->hasRightToManagePreachers() ||
+          $rights->hasRightToManageWorship() ||
+          $rights->hasRightToManageAudioEngineers() ||
+          $rights->hasRightToManageSundaySchool()
+        );
 
       }
 
@@ -900,14 +929,19 @@
           else:
             $formFieldValue = $bbRequest->getParam($formFieldIdentifier);
           endif;
-          $serviceRow->{$formFieldIdentifier} = $formFieldValue;
+          if(
+            ($formFieldIdentifier == 'serviceAdditionalInfo' && $this->hasRightToEditAdditionalInfo()) ||
+            $formFieldIdentifier != 'serviceAdditionalInfo'
+          ):
+            $serviceRow->{$formFieldIdentifier} = $formFieldValue;
+          endif;
         endforeach;
 
         if(count($formFieldIdentifiers) > 0):
           $serviceRow->save();
           unset($this->serviceRowsByEventTimestamp[$serviceRow->serviceDate]);
           if($editMode == 'songs'):
-            header('Location: '.$this->getLink($this->values['pageEditEvent']['cnv_value'], true).'?eventTimestamp='.$serviceRow->serviceDate.'&mode='.$editMode);
+            header('Location: '.$this->getLink($this->values['pageEditEvent']['cnv_value'], true).'?eventTimestamp='.$serviceRow->serviceDate.'&mode='.$editMode.'&successMessage='.$this->successMessage);
           endif;
         endif;
 
