@@ -12,7 +12,7 @@
        *
        */
       public function sendReminders() {
-
+exit;
         $oneDay = 24*60*60;
         $twoDays = 2*$oneDay;
         $threeDays = 3*$oneDay;
