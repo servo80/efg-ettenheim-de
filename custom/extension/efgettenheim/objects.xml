@@ -32,4 +32,6 @@
 
   <object name="Predigtarchiv" id="sermons" view="sermons" engine="extension" stage="0" locations="1" />
 
+  <object name="Blog (dynamisch)" id="blogDynamic" view="blogDynamic" engine="extension" stage="0" locations="1" />
+
 </objects>
