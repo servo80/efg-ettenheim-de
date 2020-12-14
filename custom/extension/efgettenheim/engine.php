@@ -300,6 +300,37 @@
 
       }
 
+      public function viewBlogDynamic() {
+
+        $bbRequest = \BB\request\http::get();
+        $blogID = $bbRequest->getInteger('blogID');
+        $blogFactory = \BB\custom\extension\efgettenheim\access\factory\blog::get();
+        $blogSearch = new \BB\custom\extension\efgettenheim\lib\search\blogSearch();
+        $blogRows = $blogFactory->searchRows($blogSearch, true);
+
+        if($blogID > 0):
+
+          $blogDetail = $blogFactory->getRow($blogID);
+
+          $this->view
+            ->add('blog', $blogRows)
+            ->add('blogDetail', $blogDetail)
+            ->add('blogID', $blogID)
+            ->assign('pageBlog', $this->getLink($this->page_id, true))
+          ;
+
+        else:
+
+          $this->view
+            ->add('blog', $blogRows)
+            ->add('blogID', '')
+            ->assign('pageBlog', $this->getLink($this->page_id, true))
+          ;
+
+        endif;
+
+      }
+
       /**
        *
        */
