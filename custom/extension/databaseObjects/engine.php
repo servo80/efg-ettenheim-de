@@ -18,9 +18,9 @@
      */
     public function viewEventsDynamic(){
 
-      $printingSearch = new classes\printingSearch();
+      $eventsSearch = new classes\eventsSearch();
       $eventsFactory = \BB\custom\extension\efgettenheim\access\factory\events::get();
-      $rows = $eventsFactory->searchRows($printingSearch, true);
+      $rows = $eventsFactory->searchRows($eventsSearch, true);
 
       foreach($rows as $row):
         if($row->eventLink != ''):
@@ -35,6 +35,29 @@
         ;
 
     }
+
+      /**
+       *
+       */
+      public function viewEventsDynamicList(){
+
+          $eventsSearch = new classes\eventsSearch();
+          $eventsFactory = \BB\custom\extension\efgettenheim\access\factory\events::get();
+          $rows = $eventsFactory->searchRows($eventsSearch, true);
+
+          foreach($rows as $row):
+              if($row->eventLink != ''):
+                  $row->eventLink = $this->getLink($row->eventLink, true);
+              endif;
+          endforeach;
+
+          $this->view
+              ->add('rows', $rows)
+              ->assign('h1', $this->values['h1']['cnv_value'])
+              ->assign('h2', $this->values['h2']['cnv_value'])
+          ;
+
+      }
 
     /**
      *
@@ -102,17 +125,21 @@
       if(\BB\config::get('mail:smtp:host') != ''):
         $coreMail->IsSMTP(true);
         $coreMail->Host = \BB\config::get('mail:smtp:host');
-        //$coreMail->SMTPDebug  = 2;
-        $coreMail->SMTPAuth = \BB\config::get('mail:smtp:smtpauth');;
+        /*
+		$coreMail->SMTPDebug = 4;
+		$coreMail->Debugoutput = function($str, $level) {
+		  echo $str."<br>";
+		};
+		*/
+        $coreMail->SMTPAuth = \BB\config::get('mail:smtp:auth');;
         $coreMail->Port = \BB\config::get('mail:smtp:port');
         $coreMail->Username = \BB\config::get('mail:smtp:username');
         $coreMail->Password = \BB\config::get('mail:smtp:password');
       endif;
 
       $coreMail->AddAddress('philipp.frick@googlemail.com');
+      $coreMail->AddAddress('daniela.przibilla@googlemail.com');
       return $coreMail->Send();
-
-
     }
 
     /**
